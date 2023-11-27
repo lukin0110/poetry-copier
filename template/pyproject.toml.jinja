@@ -83,6 +83,7 @@ addopts = "--color=yes --doctest-modules --exitfirst --failed-first --strict-con
 filterwarnings = ["error", "ignore::DeprecationWarning"]
 testpaths = ["src", "tests"]
 xfail_strict = true
+log_file_level = "info"
 pythonpath = "src"
 
 [tool.ruff]  # https://github.com/charliermarsh/ruff
@@ -143,7 +144,7 @@ convention = "numpy"
     cmd = "coverage xml"
 
 {% if use_fastapi %}
-    [tool.poe.tasks.dev]
+    [tool.poe.tasks.dev]  # https://www.uvicorn.org/settings/
     help = "Serve a REST API in development"
     cmd = """
     uvicorn
@@ -162,7 +163,7 @@ convention = "numpy"
     default = "8000"
 
 
-    [tool.poe.tasks.serve]
+    [tool.poe.tasks.serve]  # https://www.uvicorn.org/settings/
     help = "Serve a REST API in production"
     cmd = """
     uvicorn
@@ -170,6 +171,7 @@ convention = "numpy"
       --port $port
       --use-colors
       --no-access-log
+      --proxy-headers
       --timeout-graceful-shutdown 10
       --timeout-keep-alive 10
       --factory
