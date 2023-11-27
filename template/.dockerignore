@@ -1,0 +1,7 @@
+# Exclude files and directories from the build context.
+# https://docs.docker.com/engine/reference/builder/#dockerignore-file
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.git/
+tests/

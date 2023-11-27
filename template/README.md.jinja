@@ -1,0 +1,91 @@
+# {{ name }}
+
+{{ description }}. Go to [docs](docs/) for more in-depth technical documentation.
+
+## 🚀 Using
+
+<details>
+<summary>Prerequisites</summary>
+
+<details>
+<summary>1. Install Docker</summary>
+
+1. Go to [Docker](https://www.docker.com/get-started), download and install docker.
+2. [Configure Docker to use the BuildKit build system](https://docs.docker.com/build/buildkit/#getting-started). On macOS and Windows, BuildKit is enabled by default in Docker Desktop.
+
+</details>
+
+<details>
+<summary>2. Configure Poetry to use the private package repository</summary>
+
+[Create a personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#create-a-personal-access-token) with the `api` scope and use it to [add your private package repository credentials to your Poetry's `auth.toml` file](https://python-poetry.org/docs/repositories/#configuring-credentials):
+
+```toml
+# Locations of the auth.toml file:
+# macOS:   ~/Library/Application Support/pypoetry/auth.toml
+# Linux:   ~/.config/pypoetry/auth.toml
+[http-basic.{{ gitlab_private_package_repository_name }}]
+username = "{personal access token name}"
+password = "{personal access token}"
+```
+</details>
+
+<details>
+<summary>3. Link Poetry & Docker Compose</summary>
+
+Export the location of your private package repository credentials so that Docker Compose can load these as a [build and run time secret](https://docs.docker.com/compose/compose-file/compose-file-v3/#secrets-configuration-reference):
+
+```sh
+# Locations of the auth.toml file:
+# macOS:   ~/Library/Application Support/pypoetry/auth.toml
+# Linux:   ~/.config/pypoetry/auth.toml
+cat << EOF >> ~/.bashrc
+export POETRY_AUTH_TOML_PATH="~/.config/pypoetry/auth.toml"
+EOF
+```
+</details>
+</details>
+
+To serve this FastAPI app, run:
+```bash
+$ touch .env
+$ docker compose up app
+```
+and open [localhost:8000](https://localhost:8000) in your browser, [Swagger API docs](https://swagger.io/) available on [localhost:8000/docs](https://localhost:8000/docs).
+
+## ✨ Setup PyCharm
+
+Open this repo with PyCharm, and [configure Docker Compose as a remote interpreter](https://www.jetbrains.com/help/pycharm/using-docker-compose-as-a-remote-interpreter.html#docker-compose-remote) with the `dev` service.
+
+## 🧑‍💻 Contributing
+
+<details>
+<summary>Shortcuts</summary>
+
+1. `make lint`
+2. `make test`
+3. `make lock`
+4. `make shell`
+</details>
+
+#### Run linters
+```bash
+docker compose run dev poe lint
+```
+
+#### Run tests
+```bash
+docker compose run dev poe test
+```
+
+#### Update poetry lock file
+```bash
+docker compose run dev poetry lock --no-update
+# Update the docker image with the new lock file
+docker compose build
+```
+
+#### Open a shell in docker
+```bash
+docker compose run dev
+```

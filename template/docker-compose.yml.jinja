@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  dev:
+    build:
+      context: .
+      target: dev
+      secrets:
+        - poetry-auth
+    secrets:
+      - poetry-auth
+    env_file:
+      - .env
+    volumes:
+      - .:/workspaces/{{ package_slug }}/
+{% if use_fastapi %}
+  app:
+    build:
+      context: .
+      target: app
+      secrets:
+        - poetry-auth
+    tty: true
+    ports:
+      - "8000:8000"
+    expose:
+      - 8000
+    env_file:
+      - .env
+    volumes:
+      - .:/workspaces/{{ package_slug }}/
+    command: ["dev"]
+{% endif %}
+secrets:
+  poetry-auth:
+    # See README.md to configure auth.toml
+    file: "${POETRY_AUTH_TOML_PATH:-~/.config/pypoetry/auth.toml}"

@@ -1,0 +1,94 @@
+# Copier configuration settings
+_subdirectory: template
+_message_after_copy:  Your package "{{ name }}" has been created successfully!
+
+#######################################################################################################################
+# 1. Questions for the package maintainers
+#######################################################################################################################
+name:
+    type: str
+    help: What is the package name?
+    validator: "{% if not (name | regex_search('^[a-zA-Z][a-zA-Z0-9 ]*$')) %}Name is required{% endif %}"
+
+description:
+    type: str
+    help: What does the package do?
+    placeholder: "A Python package that ..."
+
+repository_url:
+    type: str
+    help: What is the URL of the repository?
+    placeholder: "https://github.com/lukin0110/poetry-plate/"
+
+use_fastapi:
+    type: bool
+    help: Do you want to use FastAPI (y/N)?
+    default: no
+
+use_pydantic:
+    type: bool
+    help: Do you want to use Pydantic (y/n)?
+    default: "{% if use_fastapi -%}yes{% else %}no{% endif %}"
+    when: "{{ not use_fastapi }}"
+
+use_makefile:
+    type: bool
+    help: Do you want to use a Makefile with convenient shortcuts (y/N)?
+    default: no
+
+#######################################################################################################################
+# 1.2 Setup CI/CD
+#######################################################################################################################
+ci:
+    type: str
+    help: What Continuous Integration service do you want to use?
+    choices:
+        GitHub CI: github
+        GitLab CI: gitlab
+    default: github
+
+use_private_package_repository:
+    type: bool
+    help: Do you want to use a private package repository (to download proprietary packages) (y/N)?
+    default: no
+
+# 1.2.1 Setup GitHub CI/CD
+# TODO (setup in together with github workflows)
+
+# 1.2.2 Setup GitLab CI/CD
+gitlab_private_package_repository_name:
+    type: str
+    help: What is the name of the private GitLab package repository?
+    default: "private_pypi"
+    validator: "{% if not (gitlab_private_package_repository_name | regex_search('^[a-zA-Z_]+$')) %}Invalid repository name{% endif %}"
+    when: "{{ ci == 'gitlab' and use_private_package_repository }}"
+
+gitlab_private_package_repository_url:
+    type: str
+    help: What is the URL of the private gitlab package repository?
+    default: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi/simple"
+    validator: "{% if not (gitlab_private_package_repository_url | regex_search('https://gitlab.com/api/v4/projects/[0-9]+/packages/pypi')) %}Invalid GitLab URL{% endif %}"
+    when: "{{ ci == 'gitlab' and use_private_package_repository }}"
+
+gitlab_private_publish_repository_url:
+    type: str
+    help: What is the URL of the private gitlab package registry to publish this package to?
+    default: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi"
+    validator: "{% if not (gitlab_private_publish_repository_url | regex_search('https://gitlab.com/api/v4/projects/.+/packages/pypi')) %}Invalid GitLab URL{% endif %}"
+    when: "{{ ci == 'gitlab' and not use_fastapi }}"
+
+#######################################################################################################################
+# 2. Computed or fixed values
+#######################################################################################################################
+python_version:
+    type: str
+    help: What Python version do you want to use?
+    default: "3.11.6"
+    when: false
+
+package_slug:
+    type: str
+    help: A slug of the package name?
+    default: "{% from 'macros/slugify.jinja' import slugify %}{{ slugify(name) }}"
+    # Compute, don't prompt. https://github.com/copier-org/copier/issues/716#issuecomment-1263307193
+    when: false

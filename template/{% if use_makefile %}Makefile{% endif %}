@@ -1,0 +1,20 @@
+# Convenient shortcuts to run some tasks
+
+# Default target when just `make` is executed
+default: lock
+
+# Run lint
+lint:
+	docker compose run dev poe lint
+
+# Run tests
+test:
+	docker compose run dev poe test
+
+# Update poetry lock file
+lock:
+	docker compose run dev poetry lock --no-update
+
+# Open a docker shell
+shell:
+	docker compose run dev

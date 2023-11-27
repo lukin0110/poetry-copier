@@ -1,0 +1,78 @@
+# syntax=docker/dockerfile:1
+FROM python:{{ python_version }}-slim AS base
+
+# Configure Python to print tracebacks on crash [1], and to not buffer stdout and stderr [2].
+# [1] https://docs.python.org/3/using/cmdline.html#envvar-PYTHONFAULTHANDLER
+# [2] https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUNBUFFERED
+ENV PYTHONFAULTHANDLER 1
+ENV PYTHONUNBUFFERED 1
+
+# Install Poetry.
+ENV POETRY_VERSION 1.7.1
+RUN --mount=type=cache,target=/root/.cache/pip/ \
+    pip install poetry==$POETRY_VERSION
+
+# Install curl & compilers that may be required for certain packages or platforms.
+# The stock ubuntu image cleans up /var/cache/apt automatically. This makes the build process slow.
+# Enable apt caching by removing docker-clean
+RUN rm /etc/apt/apt.conf.d/docker-clean
+RUN --mount=type=cache,target=/var/cache/apt/ \
+    --mount=type=cache,target=/var/lib/apt/ \
+    apt-get update && \
+    apt-get install --no-install-recommends --yes curl build-essential git zsh
+
+# Create and activate a virtual environment.
+RUN python -m venv /opt/{{ package_slug }}-env
+ENV PATH /opt/{{ package_slug }}-env/bin:$PATH
+ENV VIRTUAL_ENV /opt/{{ package_slug }}-env
+
+# Set the working directory.
+WORKDIR /workspaces/{{ package_slug }}/
+
+# Install the run time Python dependencies in the virtual environment.
+COPY poetry.lock* pyproject.toml /workspaces/{{ package_slug }}/
+RUN mkdir -p /root/.cache/pypoetry/ && mkdir -p /root/.config/pypoetry/ && \
+    mkdir -p src/{{ package_slug }}/ && touch src/{{ package_slug }}/__init__.py && touch README.md
+RUN --mount=type=cache,target=/root/.cache/pypoetry/ \
+    --mount=type=secret,id=poetry-auth,target=/root/.config/pypoetry/auth.toml,ro \
+    poetry install --only main --no-interaction
+
+
+
+FROM base AS dev
+
+# Install starship prompt.
+RUN --mount=type=cache,target=/var/cache/apt/ \
+    --mount=type=cache,target=/var/lib/apt/ \
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- "--yes" && \
+    echo 'eval "$(starship init zsh)"' >> ~/.zshrc && \
+    zsh -c 'source ~/.zshrc'
+
+# Install the development Python dependencies in the virtual environment.
+RUN --mount=type=cache,target=/root/.cache/pypoetry/ \
+    --mount=type=secret,id=poetry-auth,target=/root/.config/pypoetry/auth.toml,ro \
+    poetry install --no-interaction
+
+# Persist output generated during docker build so that we can restore it in the dev container.
+COPY .pre-commit-config.yaml /workspaces/{{ package_slug }}/
+RUN mkdir -p /opt/build/poetry/ && cp poetry.lock /opt/build/poetry/ && \
+    git init && git config --global --add safe.directory /workspaces/{{ package_slug }} && \
+    pre-commit install --install-hooks && \
+    mkdir -p /opt/build/git/ && cp .git/hooks/commit-msg .git/hooks/pre-commit /opt/build/git/
+
+# Enable Poetry to read the private package repository credentials.
+RUN ln -s /run/secrets/poetry-auth /root/.config/pypoetry/auth.toml
+
+CMD ["zsh"]
+
+
+
+{% if use_fastapi %}
+FROM base AS app
+
+# Copy the package source code.
+COPY . .
+
+ENTRYPOINT ["/opt/{{ package_slug }}-env/bin/poe"]
+CMD ["serve"]
+{% endif %}

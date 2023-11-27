@@ -1,0 +1,4 @@
+{# Slugify a value -#}
+{% macro slugify(value) -%}
+{{ value|lower|replace(' ', '_') }}
+{%- endmacro %}
