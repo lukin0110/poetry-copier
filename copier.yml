@@ -18,7 +18,7 @@ description:
 repository_url:
     type: str
     help: What is the URL of the repository?
-    placeholder: "https://github.com/lukin0110/poetry-plate/"
+    placeholder: "https://github.com/lukin0110/poetry-copier/"
 
 use_fastapi:
     type: bool

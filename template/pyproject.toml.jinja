@@ -5,7 +5,7 @@ description = "{{ description }}"
 authors = []
 license = "Proprietary"
 readme = "README.md"
-repository = "{{ repository_url }}"
+{% if repository_url %}repository = "{{ repository_url }}"{% endif %}
 
 [build-system]  # https://python-poetry.org/docs/pyproject/#poetry-and-pep-517
 requires = ["poetry-core>=1.0.0"]
@@ -36,7 +36,7 @@ typeguard = ">=3.0.2"
 name = "pypi"
 priority = "primary"
 
-{% if gitlab_use_private_package_repository %}[[tool.poetry.source]]  # https://python-poetry.org/docs/repositories/#private-repository-example
+{% if use_private_package_repository %}[[tool.poetry.source]]  # https://python-poetry.org/docs/repositories/#private-repository-example
 # Configura a private package: my_private_package = { version = ">=0.0.0", source="{{ gitlab_private_package_repository_name }}" }
 name = "{{ gitlab_private_package_repository_name }}"
 url = "{{ gitlab_private_package_repository_url }}"

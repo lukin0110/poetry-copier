@@ -9,8 +9,8 @@ services:
         - poetry-auth
     secrets:
       - poetry-auth
-    env_file:
-      - .env
+    {% if use_fastapi %}env_file:
+      - .env{% endif %}
     volumes:
       - .:/workspaces/{{ package_slug }}/
 {% if use_fastapi %}
