@@ -99,6 +99,10 @@ target-version = "py311"
 force-exclude = true  # https://docs.astral.sh/ruff/settings/#force-exclude
 preview = true  # https://docs.astral.sh/ruff/preview/
 
+[tool.ruff.extend-per-file-ignores] # https://docs.astral.sh/ruff/settings/#extend-per-file-ignores
+# Ignore missing __init__.py files in tests.
+"tests/*" = ["INP001"]
+
 [tool.ruff.flake8-tidy-imports]
 # Disallow all relative imports.
 ban-relative-imports = "all"
