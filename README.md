@@ -14,8 +14,14 @@ This template is a loose port of the [Radix Poetry Cookiecutter](https://github.
 2. Create a new repository and clone it locally.
 3. Run copier in your cloned directory:
     ```bash
-    copier copy --vcs-ref main git@github.com:lukin0110/poetry-copier.git .
+    copier copy --vcs-ref=HEAD git@github.com:lukin0110/poetry-copier.git .
     ```
+   
+### Updating a project
+
+```bash
+copier update --vcs-ref=HEAD --defaults
+```
 
 ## Rationale
 This template aims to provide [dev/prod parity](https://12factor.net/dev-prod-parity) by using [Docker multi-stage builds](https://docs.docker.com/build/building/multi-stage/) and reuse the

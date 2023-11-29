@@ -1,6 +1,7 @@
 # Copier configuration settings
 _subdirectory: template
 _message_after_copy:  Your package "{{ name }}" has been created successfully!
+_min_copier_version: "9.1.0"
 
 #######################################################################################################################
 # 1. Questions for the package maintainers
@@ -66,15 +67,15 @@ gitlab_private_package_repository_name:
 gitlab_private_package_repository_url:
     type: str
     help: What is the URL of the private gitlab package repository?
-    default: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi/simple"
+    placeholder: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi/simple"
     validator: "{% if not (gitlab_private_package_repository_url | regex_search('https://gitlab.com/api/v4/projects/[0-9]+/packages/pypi')) %}Invalid GitLab URL{% endif %}"
     when: "{{ ci == 'gitlab' and use_private_package_repository }}"
 
 gitlab_private_publish_repository_url:
     type: str
     help: What is the URL of the private gitlab package registry to publish this package to?
-    default: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi"
-    validator: "{% if not (gitlab_private_publish_repository_url | regex_search('https://gitlab.com/api/v4/projects/.+/packages/pypi')) %}Invalid GitLab URL{% endif %}"
+    placeholder: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi"
+    validator: "{% if not (gitlab_private_publish_repository_url | regex_search('https://gitlab.com/api/v4/projects/.+/packages/pypi')) %}Invalid GitLab URL to publish{% endif %}"
     when: "{{ ci == 'gitlab' and not use_fastapi }}"
 
 #######################################################################################################################
