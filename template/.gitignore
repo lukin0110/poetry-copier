@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Copier conflicts
+*.rej
+
 # Unit test / coverage reports
 htmlcov/
 .hypothesis/

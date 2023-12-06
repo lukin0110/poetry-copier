@@ -53,12 +53,10 @@ RUN --mount=type=cache,target=/root/.cache/pypoetry/ \
     --mount=type=secret,id=poetry-auth,target=/root/.config/pypoetry/auth.toml,ro \
     poetry install --no-interaction
 
-# Persist output generated during docker build so that we can restore it in the dev container.
+# Install pre-commit hooks.
 COPY .pre-commit-config.yaml /workspaces/{{ package_slug }}/
-RUN mkdir -p /opt/build/poetry/ && cp poetry.lock /opt/build/poetry/ && \
-    git init && git config --global --add safe.directory /workspaces/{{ package_slug }} && \
-    pre-commit install --install-hooks && \
-    mkdir -p /opt/build/git/ && cp .git/hooks/commit-msg .git/hooks/pre-commit /opt/build/git/
+RUN git init && git config --global --add safe.directory /workspaces/{{ package_slug }} && \
+    pre-commit install --install-hooks
 
 # Enable Poetry to read the private package repository credentials.
 RUN ln -s /run/secrets/poetry-auth /root/.config/pypoetry/auth.toml
