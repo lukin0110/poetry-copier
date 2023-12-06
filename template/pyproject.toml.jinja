@@ -13,10 +13,10 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]  # https://python-poetry.org/docs/dependency-specification/
 python = ">={{ python_version }},<4.0"
-poethepoet = ">=0.24.2"
+poethepoet = ">=0.24.4"
 {% if use_fastapi %}fastapi = { extras = ["all"], version = ">=0.104.1" }
 uvicorn = { extras = ["standard"], version = ">=0.24.0" }{% endif %}
-{% if use_pydantic %}pydantic = ">=2.4.2"{% endif %}
+{% if use_pydantic %}pydantic = ">=2.5.2"{% endif %}
 
 [tool.poetry.group.dev.dependencies]  # https://python-poetry.org/docs/master/managing-dependencies/
 coverage = { extras = ["toml"], version = ">=7.3.2" }
@@ -126,11 +126,14 @@ convention = "numpy"
     help = "Lint this package"
 
     [[tool.poe.tasks.lint.sequence]]
+    shell = '[ -d ".git" ] || { echo "\n\\033[0;31mGit is not initialized in this directory. Please run \"git init\".\\033[0m\n"; exit 1; }'
+
+    [[tool.poe.tasks.lint.sequence]]
     cmd = """
-      pre-commit run
+    pre-commit run
         --all-files
         --color always
-      """
+    """
 
     [[tool.poe.tasks.lint.sequence]]
     shell = "safety check --continue-on-error --full-report"

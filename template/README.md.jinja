@@ -15,7 +15,7 @@
 
 </details>
 
-<details>
+{% if use_private_package_repository %}<details>
 <summary>2. Configure Poetry to use the private package repository</summary>
 
 [Create a personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#create-a-personal-access-token) with the `api` scope and use it to [add your private package repository credentials to your Poetry's `auth.toml` file](https://python-poetry.org/docs/repositories/#configuring-credentials):
@@ -43,7 +43,7 @@ cat << EOF >> ~/.bashrc
 export POETRY_AUTH_TOML_PATH="~/.config/pypoetry/auth.toml"
 EOF
 ```
-</details>
+</details>{% endif %}
 </details>
 
 To serve this FastAPI app, run:

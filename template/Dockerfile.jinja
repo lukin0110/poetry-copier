@@ -33,8 +33,8 @@ WORKDIR /workspaces/{{ package_slug }}/
 COPY poetry.lock* pyproject.toml /workspaces/{{ package_slug }}/
 RUN mkdir -p /root/.cache/pypoetry/ && mkdir -p /root/.config/pypoetry/ && \
     mkdir -p src/{{ package_slug }}/ && touch src/{{ package_slug }}/__init__.py && touch README.md
-RUN --mount=type=cache,target=/root/.cache/pypoetry/ \
-    --mount=type=secret,id=poetry-auth,target=/root/.config/pypoetry/auth.toml,ro \
+RUN --mount=type=cache,target=/root/.cache/pypoetry/ \{% if use_private_package_repository %}
+    --mount=type=secret,id=poetry-auth,target=/root/.config/pypoetry/auth.toml,ro \{% endif %}
     poetry install --only main --no-interaction
 
 
@@ -49,8 +49,8 @@ RUN --mount=type=cache,target=/var/cache/apt/ \
     zsh -c 'source ~/.zshrc'
 
 # Install the development Python dependencies in the virtual environment.
-RUN --mount=type=cache,target=/root/.cache/pypoetry/ \
-    --mount=type=secret,id=poetry-auth,target=/root/.config/pypoetry/auth.toml,ro \
+RUN --mount=type=cache,target=/root/.cache/pypoetry/ \{% if use_private_package_repository %}
+    --mount=type=secret,id=poetry-auth,target=/root/.config/pypoetry/auth.toml,ro \{% endif %}
     poetry install --no-interaction
 
 # Install pre-commit hooks.
@@ -58,15 +58,14 @@ COPY .pre-commit-config.yaml /workspaces/{{ package_slug }}/
 RUN git init && git config --global --add safe.directory /workspaces/{{ package_slug }} && \
     pre-commit install --install-hooks
 
-# Enable Poetry to read the private package repository credentials.
-RUN ln -s /run/secrets/poetry-auth /root/.config/pypoetry/auth.toml
+{% if use_private_package_repository %}# Enable Poetry to read the private package repository credentials.
+RUN ln -s /run/secrets/poetry-auth /root/.config/pypoetry/auth.toml{% endif %}
 
 CMD ["zsh"]
 
 
 
-{% if use_fastapi %}
-FROM base AS app
+{% if use_fastapi %}FROM base AS app
 
 # Copy the package source code.
 COPY . .
