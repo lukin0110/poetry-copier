@@ -1,20 +1,24 @@
 # Convenient shortcuts to run some tasks
 
 # Default target when just `make` is executed
-default: lock
+default: lint test
 
 # Run lint
+.PHONY: lint
 lint:
 	docker compose run dev poe lint
 
 # Run tests
+.PHONY: test
 test:
 	docker compose run dev poe test
 
 # Update poetry lock file
+.PHONY: lock
 lock:
 	docker compose run dev poetry lock --no-update
 
 # Open a docker shell
+.PHONY: shell
 shell:
 	docker compose run dev
