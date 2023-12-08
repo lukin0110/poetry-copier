@@ -59,9 +59,9 @@ RUN git init && git config --global --add safe.directory /workspaces/{{ package_
     pre-commit install --install-hooks
 
 {% if use_private_package_repository %}# Enable Poetry to read the private package repository credentials.
-RUN ln -s /run/secrets/poetry-auth /root/.config/pypoetry/auth.toml{% endif %}
+RUN ln -s /run/secrets/poetry-auth /root/.config/pypoetry/auth.toml
 
-CMD ["zsh"]
+{% endif %}CMD ["zsh"]
 
 
 

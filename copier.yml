@@ -2,9 +2,6 @@
 _subdirectory: template
 _message_after_copy:  Your package "{{ name }}" has been created successfully!
 _min_copier_version: "9.1.0"
-_tasks:
-    # Initialize git in the project's directory. Strings get executed under system's default shell
-    - '[ -d ".git" ] || { git init; }'
 
 #######################################################################################################################
 # 1. Questions for the package maintainers

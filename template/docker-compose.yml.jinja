@@ -1,19 +1,28 @@
 version: "3.9"
 
 services:
-  dev:
+  # Container definition for the devcontainer
+  devcontainer:
     build:
       context: .
       target: dev{% if use_private_package_repository %}
       secrets:
         - poetry-auth
     secrets:
-      - poetry-auth{% endif %}{% if use_fastapi %}
-    env_file:
-      - .env{% endif %}
+      - poetry-auth{% endif %}
     volumes:
       - .:/workspaces/{{ package_slug }}/
+
+  # Container definition for local development without devcontainer/VSCode
+  dev:
+    extends: devcontainer
+    stdin_open: true
+    tty: true
+    entrypoint: []{% if use_fastapi %}
+    ports:
+      - "8000"{% endif %}
 {% if use_fastapi %}
+  # Container definition for running the FastAPI app in production
   app:
     build:
       context: .
@@ -25,8 +34,6 @@ services:
       - "8000:8000"
     expose:
       - 8000
-    env_file:
-      - .env
     volumes:
       - .:/workspaces/{{ package_slug }}/
     command: ["dev"]

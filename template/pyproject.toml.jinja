@@ -126,7 +126,7 @@ convention = "numpy"
     help = "Lint this package"
 
     [[tool.poe.tasks.lint.sequence]]
-    shell = '[ -d ".git" ] || { echo "\n\\033[0;31mGit is not initialized in this directory. Please run \"git init\".\\033[0m\n"; exit 1; }'
+    shell = '[ -d ".git" ] || { echo "\n\\033[0;31mGit is not initialized in this directory. Please run \"git init\" to fix linting.\\033[0m\n"; exit 1; }'
 
     [[tool.poe.tasks.lint.sequence]]
     cmd = """
