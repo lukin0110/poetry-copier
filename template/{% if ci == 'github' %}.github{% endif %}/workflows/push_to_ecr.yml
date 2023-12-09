@@ -9,11 +9,6 @@ name: Push to ECR
 
 on: workflow_dispatch
 
-env:
-  BUILD_BRANCH: ${{ github.head_ref || github.ref_name }}
-  BUILD_COMMIT: ${{ github.sha }}
-  BUILD_TIMESTAMP: $(date +"%Y-%m-%dT%H:%M:%S:%z")
-
 jobs:
   build_and_push:
     name: Build and push
@@ -33,6 +28,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         env:
+          BUILD_BRANCH: ${{ github.head_ref || github.ref_name }}
           AWS_ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         with:
           context: .
@@ -40,8 +36,8 @@ jobs:
           push: true
           build-args: |
             BUILD_BRANCH=${{ env.BUILD_BRANCH }}
-            BUILD_COMMIT=${{ env.COMMIT }}
-            BUILD_TIMESTAMP=${{ env.BUILD_TIMESTAMP }}
+            BUILD_COMMIT=${{ github.sha }}
+            BUILD_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S:%z")
           tags: |
             ${{ env.AWS_ECR_REGISTRY }}/${{ vars.AWS_ECR_REPOSITORY }}:latest
             ${{ env.AWS_ECR_REGISTRY }}/${{ vars.AWS_ECR_REPOSITORY }}:${{ env.BUILD_BRANCH }}

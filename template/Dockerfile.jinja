@@ -72,4 +72,12 @@ COPY . .
 
 ENTRYPOINT ["/opt/{{ package_slug }}-env/bin/poe"]
 CMD ["serve"]
+
+# Provide build information as environment variables.
+ARG BUILD_BRANCH
+ENV BUILD_BRANCH $BUILD_BRANCH
+ARG BUILD_COMMIT
+ENV BUILD_COMMIT $BUILD_COMMIT
+ARG BUILD_TIMESTAMP
+ENV BUILD_TIMESTAMP $BUILD_TIMESTAMP
 {% endif %}

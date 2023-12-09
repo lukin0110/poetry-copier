@@ -7,11 +7,6 @@ on:
       - master
   pull_request:
 
-env:
-  BUILD_BRANCH: ${{ github.head_ref || github.ref_name }}
-  BUILD_COMMIT: ${{ github.sha }}
-  BUILD_TIMESTAMP: $(date +"%Y-%m-%dT%H:%M:%S:%z")
-
 jobs:
   build_and_push:
     name: Build and push
@@ -28,14 +23,16 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v5
+        env:
+          BUILD_BRANCH: ${{ github.head_ref || github.ref_name }}
         with:
           context: .
           target: app
           push: true
           build-args: |
             BUILD_BRANCH=${{ env.BUILD_BRANCH }}
-            BUILD_COMMIT=${{ env.COMMIT }}
-            BUILD_TIMESTAMP=${{ env.BUILD_TIMESTAMP }}
+            BUILD_COMMIT=${{ github.sha }}
+            BUILD_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S:%z")
           tags: |
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ env.BUILD_BRANCH }}
