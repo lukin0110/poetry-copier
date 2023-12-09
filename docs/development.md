@@ -27,6 +27,7 @@ copier copy ../poetry-copier .
         env:
           CODECOV_TOKEN: {% raw %}${{ secrets.CODECOV_TOKEN }}{% endraw %}
 ```
+Link: https://github.com/codecov/codecov-action
 
 ## Useful reads
 

@@ -1,0 +1,47 @@
+# Configure the following variables in your repository secrets:
+# AWS_ACCESS_KEY_ID
+# AWS_SECRET_ACCESS_KEY
+#
+# Configure the following variables in your repository environment:
+# AWS_REGION
+# AWS_ECR_REPOSITORY (the name of the repository in ECR, NOT to full URI)
+name: Push to ECR
+
+on: workflow_dispatch
+
+env:
+  BUILD_BRANCH: ${{ github.head_ref || github.ref_name }}
+  BUILD_COMMIT: ${{ github.sha }}
+  BUILD_TIMESTAMP: $(date +"%Y-%m-%dT%H:%M:%S:%z")
+
+jobs:
+  build_and_push:
+    name: Build and push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Log in to registry
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        env:
+          AWS_ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        with:
+          context: .
+          target: app
+          push: true
+          build-args: |
+            BUILD_BRANCH=${{ env.BUILD_BRANCH }}
+            BUILD_COMMIT=${{ env.COMMIT }}
+            BUILD_TIMESTAMP=${{ env.BUILD_TIMESTAMP }}
+          tags: |
+            ${{ env.AWS_ECR_REGISTRY }}/${{ vars.AWS_ECR_REPOSITORY }}:latest
+            ${{ env.AWS_ECR_REGISTRY }}/${{ vars.AWS_ECR_REPOSITORY }}:${{ env.BUILD_BRANCH }}

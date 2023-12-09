@@ -9,40 +9,27 @@ on:
 
 jobs:
   test:
+    name: Lint and Test
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["{{ python_version }}"]
-
-    name: Python {{ python_version }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-
       - name: Install @devcontainers/cli
         run: npm install --location=global @devcontainers/cli@0.54.2
-
       - name: Start Dev Container
         env:
           DOCKER_BUILDKIT: 1
         run: |
           git config --global init.defaultBranch main
-          PYTHON_VERSION={{ python_version }} devcontainer up --workspace-folder .
-
+          devcontainer up --workspace-folder .
       - name: Lint package
         run: devcontainer exec --workspace-folder . poe lint
-
       - name: Test package
         run: devcontainer exec --workspace-folder . poe test
-
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
