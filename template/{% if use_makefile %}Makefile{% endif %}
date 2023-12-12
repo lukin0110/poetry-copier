@@ -1,7 +1,20 @@
 # Convenient shortcuts to run some tasks
 
 # Default target when just `make` is executed
-default: lint test
+default: help
+
+# Show help
+.PHONY: help
+help:
+	@echo "Usage:"
+	@echo "  make [command]"
+	@echo ""
+	@echo "Commands:"
+	@echo "  lint     Run linters"
+	@echo "  test     Run tests"
+	@echo "  lock     Update poetry lock file"
+	@echo "  shell    Open a shell in the dev container"
+	@echo ""
 
 # Run lint
 .PHONY: lint

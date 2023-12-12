@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set Build Timestamp
+        run: echo "BUILD_TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%S:%z')" >> $GITHUB_ENV
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -37,7 +39,7 @@ jobs:
           build-args: |
             BUILD_BRANCH=${{ env.BUILD_BRANCH }}
             BUILD_COMMIT=${{ github.sha }}
-            BUILD_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S:%z")
+            BUILD_TIMESTAMP=${{ env.BUILD_TIMESTAMP }}
           tags: |
             ${{ env.AWS_ECR_REGISTRY }}/${{ vars.AWS_ECR_REPOSITORY }}:latest
             ${{ env.AWS_ECR_REGISTRY }}/${{ vars.AWS_ECR_REPOSITORY }}:${{ env.BUILD_BRANCH }}

@@ -1,3 +1,5 @@
+[![License: GNU Affero General Public License v3.0](https://img.shields.io/static/v1?label=license&message=GNU%20AFFERO&color=blue)](https://github.com/lukin0110/poetry-copier/blob/main/LICENSE) [![Open in GitHub Codespaces](https://img.shields.io/static/v1?label=GitHub%20Codespaces&message=Open&color=blue&logo=github)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=724307075)
+
 # Poetry Copier
 
 A [copier](https://copier.readthedocs.io/en/stable/) template for scaffolding Python packages and/or FastAPI apps using 
@@ -41,5 +43,3 @@ stages to *develop locally*, *run CI/CD tasks* and *publish a package/deploy an 
 achieving this objective. It aims to establish and utilize consistent, reproducible environments, significantly 
 reducing the effort required to initiate a project upon checkout. The template is designed so that you can choose how 
 you want to develop locally, either using Docker or Poetry directly (without Docker).
-
-_Note: it does not use [DevContainers](https://containers.dev/) (yet). I'm tackling complexity per complexity_ 😎.
