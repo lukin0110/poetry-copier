@@ -18,10 +18,10 @@ services:
     extends: devcontainer
     stdin_open: true
     tty: true
-    entrypoint: []{% if use_fastapi %}
+    entrypoint: []{% if use_app %}
     ports:
       - "8000"{% endif %}
-{% if use_fastapi %}
+{% if use_app %}
   # Container definition for running the FastAPI app in production
   app:
     build:
@@ -36,7 +36,7 @@ services:
       - 8000
     volumes:
       - .:/workspaces/{{ package_slug }}/
-    command: ["dev"]
+    command: ["serve", "--dev"]
 {% endif %}{% if use_private_package_repository %}
 secrets:
   poetry-auth:

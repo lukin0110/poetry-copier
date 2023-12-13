@@ -30,16 +30,20 @@ repository_url:
     help: What is the URL of the repository?
     placeholder: "https://github.com/lukin0110/poetry-copier/"
 
-use_fastapi:
-    type: bool
-    help: Do you want to use FastAPI (y/N)?
-    default: no
+package_type:
+    type: str
+    help: What package type do you want to create?
+    choices:
+        Python Package: package
+        FastAPI App: fastapi
+        Gradio App: gradio
+    default: package
 
 use_pydantic:
     type: bool
     help: Do you want to use Pydantic (y/n)?
-    default: "{% if use_fastapi -%}yes{% else %}no{% endif %}"
-    when: "{{ not use_fastapi }}"
+    default: "{% if package_type == 'fastapi' %}yes{% else %}no{% endif %}"
+    when: "{{ package_type != 'fastapi' }}"
 
 use_makefile:
     type: bool
@@ -101,4 +105,22 @@ package_slug:
     help: A slug of the package name?
     default: "{% from 'macros/slugify.jinja' import slugify %}{{ slugify(name) }}"
     # Compute, don't prompt. https://github.com/copier-org/copier/issues/716#issuecomment-1263307193
+    when: false
+
+use_app:
+    type: bool
+    help: Do you want to use the app (y/N)?
+    default: "{% if package_type != 'package' %}yes{% else %}no{% endif %}"
+    when: false
+
+use_fastapi:
+    type: bool
+    help: Do you want to use FastAPI (y/N)?
+    default: "{% if package_type == 'fastapi' %}yes{% else %}no{% endif %}"
+    when: false
+
+use_gradio:
+    type: bool
+    help: Do you want to use Gradio (y/N)?
+    default: "{% if package_type == 'gradio' %}yes{% else %}no{% endif %}"
     when: false

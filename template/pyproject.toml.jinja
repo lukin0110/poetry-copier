@@ -14,8 +14,9 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.dependencies]  # https://python-poetry.org/docs/dependency-specification/
 python = ">={{ python_version }},<4.0"
 poethepoet = ">=0.24.4"
-{% if use_fastapi %}fastapi = { extras = ["all"], version = ">=0.104.1" }
+{% if use_fastapi %}fastapi = { extras = ["all"], version = ">=0.105.0" }
 uvicorn = { extras = ["standard"], version = ">=0.24.0" }{% endif %}
+{% if use_gradio %}gradio = ">=4.9.0"{% endif %}
 {% if use_pydantic %}pydantic = ">=2.5.2"{% endif %}
 
 [tool.poetry.group.dev.dependencies]  # https://python-poetry.org/docs/master/managing-dependencies/
@@ -34,7 +35,6 @@ typeguard = ">=4.1.5"
 [[tool.poetry.source]]  # https://python-poetry.org/docs/repositories/
 name = "pypi"
 priority = "primary"
-
 {% if use_private_package_repository %}[[tool.poetry.source]]  # https://python-poetry.org/docs/repositories/#private-repository-example
 # Configura a private package: my_private_package = { version = ">=0.0.0", source="{{ gitlab_private_package_repository_name }}" }
 name = "{{ gitlab_private_package_repository_name }}"
@@ -150,44 +150,52 @@ convention = "numpy"
     [[tool.poe.tasks.test.sequence]]
     cmd = "coverage xml"
 
-{% if use_fastapi %}
-    [tool.poe.tasks.dev]  # https://www.uvicorn.org/settings/
-    help = "Serve a REST API in development"
-    cmd = """
-    uvicorn
-      --host 0.0.0.0
-      --port $port
-      --use-colors
-      --reload
-      --factory
-      {{ package_slug }}.app:create_app
-    """
-
-    [[tool.poe.tasks.dev.args]]
-    help = "Bind socket to this port (default: 8000)"
-    name = "port"
-    options = ["--port"]
-    default = "8000"
-
-
+{% if use_gradio %}
+    [tool.poe.tasks.serve]
+    help = "Serve Gradio App"
+    cmd = "gradio src/{{ package_slug }}/app.py"
+    use_exec = true
+{% endif %}{% if use_fastapi %}
     [tool.poe.tasks.serve]  # https://www.uvicorn.org/settings/
     help = "Serve a REST API in production"
-    cmd = """
-    uvicorn
-      --host 0.0.0.0
-      --port $port
-      --use-colors
-      --proxy-headers
-      --timeout-graceful-shutdown 10
-      --timeout-keep-alive 10
-      --factory
-      {{ package_slug }}.app:create_app
+    shell = """
+    if [ $dev ]
+    then {
+        uvicorn \
+          --host $host \
+          --port $port \
+          --use-colors \
+          --reload \
+          --factory \
+          {{ package_slug }}.app:create_app
+    } else {
+        uvicorn \
+          --host $host \
+          --port $port \
+          --use-colors \
+          --proxy-headers \
+          --timeout-graceful-shutdown 10 \
+          --timeout-keep-alive 10 \
+          --factory \
+          {{ package_slug }}.app:create_app
+    } fi
     """
-    use_exec = true
+{% endif %}{% if use_app %}
+    [[tool.poe.tasks.serve.args]]
+    help = "Bind socket to this host (default: 0.0.0.0)"
+    name = "host"
+    options = ["--host"]
+    default = "0.0.0.0"
 
     [[tool.poe.tasks.serve.args]]
     help = "Bind socket to this port (default: 8000)"
     name = "port"
     options = ["--port"]
     default = "8000"
+
+    [[tool.poe.tasks.serve.args]]
+    help = "Enable development mode"
+    type = "boolean"
+    name = "dev"
+    options = ["--dev"]
 {% endif %}

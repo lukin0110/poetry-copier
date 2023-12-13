@@ -68,7 +68,7 @@ RUN ln -s /run/secrets/poetry-auth /root/.config/pypoetry/auth.toml
 
 
 
-{% if use_fastapi %}FROM base AS app
+{% if use_app %}FROM base AS app
 
 # Copy the package source code.
 COPY . .
