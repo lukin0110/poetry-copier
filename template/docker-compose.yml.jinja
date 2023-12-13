@@ -43,3 +43,6 @@ secrets:
     # See README.md to configure auth.toml
     file: "${POETRY_AUTH_TOML_PATH:-~/.config/pypoetry/auth.toml}"
  {% endif %}
+networks:
+  default:
+    name: {{ package_slug }}-network

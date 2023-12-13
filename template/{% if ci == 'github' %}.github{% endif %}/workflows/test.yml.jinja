@@ -12,27 +12,38 @@ jobs:
     name: Lint and Test
     runs-on: ubuntu-latest
     steps:
+      # https://github.com/actions/checkout
       - name: Checkout
         uses: actions/checkout@v4
+
+      # https://github.com/actions/setup-node
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
+
       - name: Install @devcontainers/cli
         run: npm install --location=global @devcontainers/cli@0.54.2
+
       - name: Start Dev Container
         env:
           DOCKER_BUILDKIT: 1
         run: |
           git config --global init.defaultBranch main
           devcontainer up --workspace-folder .
+
       - name: Lint package
         run: devcontainer exec --workspace-folder . poe lint
+
       - name: Test package
         run: devcontainer exec --workspace-folder . poe test
+
+      # https://github.com/codecov/codecov-action
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
           files: reports/coverage.xml
         env:
-          CODECOV_TOKEN: {% raw %}${{ secrets.CODECOV_TOKEN }}{% endraw %}
+          token: {% raw %}${{ secrets.CODECOV_TOKEN }}{% endraw %}
+          fail_ci_if_error: false
+          verbose: true
