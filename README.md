@@ -9,13 +9,14 @@ This template is a loose port of the [Radix Poetry Cookiecutter](https://github.
 
 ## 🎉 Features
 
-- 🐳 Reproducible development environments with [Docker](https://www.docker.com/)
+- 🐳 Reproducible [Docker](https://www.docker.com/) based development environments with [VSCode Dev Containers](https://code.visualstudio.com/docs/remote/containers), [GitHub Codespaces](https://github.com/features/codespaces) 
+- 🐍 Support for a Python package, [FastAPI](https://fastapi.tiangolo.com/) app or [Gradio app](https://www.gradio.app/).
 - 📦 Dependency management with [Poetry](https://python-poetry.org/)
 - 🏃 Task running with [Poe the Poet](https://poethepoet.natn.io/index.html)
 - ✍️ Code formatting with [Ruff](https://docs.astral.sh/ruff/)
 - ✅ Code linting with [Pre-commit](https://pre-commit.com/), [Mypy](), and [Ruff](https://docs.astral.sh/ruff/)
 - 🧪 Test coverage with [Coverage.py](https://coverage.readthedocs.io/en/7.3.2/) and [Pytest](https://docs.pytest.org/en/7.4.x/)
-- ♻️ Continuous integration with [GitLab CI/CD](https://docs.gitlab.com/ee/ci/)
+- ♻️ Continuous integration with [GitHub Actions](https://docs.github.com/en/actions) or [GitLab CI/CD](https://docs.gitlab.com/ee/ci/)
 - ⚡️ Optionally include [FastAPI](https://fastapi.tiangolo.com/) with [Pydantic V2](https://docs.pydantic.dev/2.5/)
 - 🚧 Interactive scaffolding and updates with [Copier](https://copier.readthedocs.io/en/stable/)
 

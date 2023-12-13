@@ -1,56 +1,66 @@
 {
-    "name": "{{ package_slug }}",
-    "dockerComposeFile": "../docker-compose.yml",
-    "service": "devcontainer",
-    "shutdownAction": "stopCompose",
-    "workspaceFolder": "/workspaces/{{ package_slug }}/",
-    "remoteUser": "root",
-    "overrideCommand": true,
-    "initializeCommand": "touch .env",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "charliermarsh.ruff",
-                "eamodio.gitlens",
-                "ms-azuretools.vscode-docker",
-                "ms-python.mypy-type-checker",
-                "ms-python.python",
-                "ryanluker.vscode-coverage-gutters",
-                "tamasfe.even-better-toml",
-                "visualstudioexptteam.vscodeintellicode"
-            ],
-            "settings": {
-                "coverage-gutters.coverageFileNames": [
-                    "reports/coverage.xml"
-                ],
-                "editor.codeActionsOnSave": {
-                    "source.fixAll": true,
-                    "source.organizeImports": true
-                },
-                "editor.formatOnSave": true,
-                "[python]": {
-                    "editor.defaultFormatter": "charliermarsh.ruff"
-                },
-                "[toml]": {
-                    "editor.formatOnSave": false
-                },
-                "editor.rulers": [
-                    100
-                ],
-                "files.autoSave": "onFocusChange",
-                "mypy-type-checker.importStrategy": "fromEnvironment",
-                "python.defaultInterpreterPath": "/opt/{{ package_slug }}-env/bin/python",
-                "python.terminal.activateEnvironment": false,
-                "python.testing.pytestEnabled": true,
-                "ruff.importStrategy": "fromEnvironment",
-                "ruff.logLevel": "warn",
-                "terminal.integrated.defaultProfile.linux": "zsh",
-                "terminal.integrated.profiles.linux": {
-                    "zsh": {
-                        "path": "/usr/bin/zsh"
-                    }
-                }
-            }
+  "name": "{{ package_slug }}",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "devcontainer",
+  "runServices": [
+    "devcontainer"
+  ],
+  "shutdownAction": "stopCompose",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/{{ package_slug }}/,type=bind,consistency=cached",
+  "workspaceFolder": "/workspaces/{{ package_slug }}/",
+  "remoteUser": "root",
+  "overrideCommand": true,
+  "initializeCommand": "touch .env",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "charliermarsh.ruff",
+        "eamodio.gitlens",
+        "ms-azuretools.vscode-docker",
+        "ms-python.mypy-type-checker",
+        "ms-python.python",
+        "ryanluker.vscode-coverage-gutters",
+        "tamasfe.even-better-toml",
+        "visualstudioexptteam.vscodeintellicode"
+      ],
+      "settings": {
+        "coverage-gutters.coverageFileNames": [
+          "reports/coverage.xml"
+        ],
+        "editor.codeActionsOnSave": {
+          "source.fixAll": true,
+          "source.organizeImports": true
+        },
+        "editor.formatOnSave": true,
+        "editor.rulers": [
+          100
+        ],
+        "editor.tabSize": 4,
+        "files.autoSave": "onFocusChange",
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff"
+        },
+        "[toml]": {
+          "editor.formatOnSave": false
+        },
+        "mypy-type-checker.importStrategy": "fromEnvironment",
+        "python.defaultInterpreterPath": "/opt/{{ package_slug }}-env/bin/python",
+        "python.terminal.activateEnvironment": false,
+        "python.testing.pytestEnabled": true,
+        "ruff.importStrategy": "fromEnvironment",
+        "ruff.logLevel": "warn",
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/usr/bin/zsh"
+          }
         }
+      }
+    },
+    "codespaces": {
+      "openFiles": [
+        "README.md"
+      ]
     }
+  }
 }

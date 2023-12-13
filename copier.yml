@@ -124,3 +124,9 @@ use_gradio:
     help: Do you want to use Gradio (y/N)?
     default: "{% if package_type == 'gradio' %}yes{% else %}no{% endif %}"
     when: false
+
+use_push_ecr:
+    type: bool
+    help: Do you want to push the Docker image to ECR (y/N)?
+    default: no
+    when: false
