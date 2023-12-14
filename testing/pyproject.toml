@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "poetry copier tests"
+version = "0.0.1"
+description = "A test suite for the poetry copier template"
+authors = ["Maarten Huijsmans <maarten.huijsmans@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+copier = ">=9.1.0"
+pytest = ">=7.4.3"
+python = "^3.11"
+ruff = ">=0.1.8"
+
+[tool.ruff]  # https://github.com/charliermarsh/ruff
+fix = true
+ignore-init-module-imports = true
+line-length = 120
+select = ["A", "ASYNC", "B", "BLE", "C4", "C90", "D", "DTZ", "E", "EM", "ERA", "F", "FBT", "FLY", "FURB", "G", "I", "ICN", "INP", "INT", "ISC", "LOG", "N", "NPY", "PERF", "PGH", "PIE", "PLC", "PLE", "PLR", "PLW", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "S", "SIM", "SLF", "SLOT", "T10", "T20", "TCH", "TID", "TRY", "UP", "W", "YTT"]
+extend-safe-fixes = ["TID252"]  # https://docs.astral.sh/ruff/settings/#extend-safe-fixes
+ignore = ["D211", "D213", "FBT001", "E501", "EM101", "EM102", "ISC001", "RET504", "S101", "TRY003", "W505"]
+unfixable = ["ERA001", "F401", "F841", "T201", "T203"]  # https://docs.astral.sh/ruff/settings/#unfixable
+src = ["tests"]
+target-version = "py311"
+force-exclude = true  # https://docs.astral.sh/ruff/settings/#force-exclude
+preview = true  # https://docs.astral.sh/ruff/preview/
+
+[tool.pytest.ini_options]  # https://docs.pytest.org/en/latest/reference/reference.html#ini-options-ref
+addopts = "--color=yes --doctest-modules --exitfirst --failed-first --strict-config --strict-markers --verbosity=2 --junitxml=reports/pytest.xml"
+filterwarnings = ["error", "ignore::DeprecationWarning"]
+testpaths = ["tests"]
+xfail_strict = true
+log_cli = true
+log_file_level = "info"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
