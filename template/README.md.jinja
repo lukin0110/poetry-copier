@@ -1,6 +1,6 @@
 # {{ name }}
 
-{{ description }}. Go to [docs](docs/) for more in-depth technical documentation.
+{{ description }}.
 
 ## 🚀 Using
 
@@ -104,21 +104,21 @@ poetry lock --no-update
 
 1. Run linters
 ```bash
-docker compose run dev poe lint
+docker compose run devcontainer poe lint
 ```
 2. Run tests
 ```bash
-docker compose run dev poe test
+docker compose run devcontainer poe test
 ```
 3. Update poetry lock file
 ```bash
-docker compose run dev poetry lock --no-update
+docker compose run devcontainer poetry lock --no-update
 # Update the docker image with the new lock file
 docker compose build
 ```
 4. Open a shell in docker
 ```bash
-docker compose run dev
+docker compose run devcontainer
 ```
 </details>
 {% if use_makefile %}<details>

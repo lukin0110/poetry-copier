@@ -10,17 +10,12 @@ services:
         - poetry-auth
     secrets:
       - poetry-auth{% endif %}
+    stdin_open: true
+    tty: true{% if use_app %}
+    ports:
+      - "8000:8000"{% endif %}
     volumes:
       - .:/workspaces/{{ package_slug }}/
-
-  # Container definition for local development without devcontainer/VSCode
-  dev:
-    extends: devcontainer
-    stdin_open: true
-    tty: true
-    entrypoint: []{% if use_app %}
-    ports:
-      - "8000"{% endif %}
 {% if use_app %}
   # Container definition for running the FastAPI app in production
   app:

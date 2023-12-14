@@ -19,19 +19,19 @@ help:
 # Run lint
 .PHONY: lint
 lint:
-	docker compose run dev poe lint
+	docker compose run devcontainer poe lint
 
 # Run tests
 .PHONY: test
 test:
-	docker compose run dev poe test
+	docker compose run devcontainer poe test
 
 # Update poetry lock file
 .PHONY: lock
 lock:
-	docker compose run dev poetry lock --no-update
+	docker compose run devcontainer poetry lock --no-update
 
 # Open a docker shell
 .PHONY: shell
 shell:
-	docker compose run dev
+	docker compose run devcontainer
