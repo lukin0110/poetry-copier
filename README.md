@@ -6,14 +6,13 @@
 
 # Poetry Copier
 
-A [copier](https://copier.readthedocs.io/en/stable/) template for scaffolding Python packages and/or FastAPI apps using 
-[Poetry](https://python-poetry.org/) as package manager.
+A [copier](https://copier.readthedocs.io/en/stable/) template for scaffolding Python packages and apps (FastAPI and Gradio) using [Poetry](https://python-poetry.org/) as package manager.
 
 This template is a loose port of the [Radix Poetry Cookiecutter](https://github.com/radix-ai/poetry-cookiecutter) and comes with the same [LICENSE](LICENSE).
 
 ## 🎉 Features
 
-- 🐳 Reproducible [Docker](https://www.docker.com/) based development environments with [VSCode Dev Containers](https://code.visualstudio.com/docs/remote/containers), [GitHub Codespaces](https://github.com/features/codespaces) 
+- 🐳 Reproducible [Docker](https://www.docker.com/) based development environments with [VSCode Dev Containers](https://code.visualstudio.com/docs/remote/containers) and [GitHub Codespaces](https://github.com/features/codespaces) 
 - 🐍 Support for a Python package, [FastAPI](https://fastapi.tiangolo.com/) app or [Gradio app](https://www.gradio.app/).
 - 📦 Dependency management with [Poetry](https://python-poetry.org/)
 - 🏃 Task running with [Poe the Poet](https://poethepoet.natn.io/index.html)

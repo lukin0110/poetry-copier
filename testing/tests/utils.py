@@ -1,8 +1,9 @@
 """Test utilities."""
 
+import json
 import os
+import tomllib
 from pathlib import Path
-from tomllib import TOMLDecodeError, load
 from typing import Any
 
 
@@ -38,6 +39,60 @@ def assert_toml(path: Path) -> dict[str, Any]:
     """Check if the given path is a valid toml file."""
     try:
         with path.open("rb") as fh:
-            return load(fh)
-    except TOMLDecodeError as e:
+            return tomllib.load(fh)
+    except tomllib.TOMLDecodeError as e:
+        raise AssertionError(f"Could not load: {path}") from e
+
+
+def assert_devcontainer(path: Path) -> None:
+    """Check if the given path is a valid devcontainer definition."""
+    try:
+        with path.open("r") as fh:
+            data = json.load(fh)
+            assert data == {
+                "name": "mcfly",
+                "dockerComposeFile": "../docker-compose.yml",
+                "service": "devcontainer",
+                "runServices": ["devcontainer"],
+                "shutdownAction": "stopCompose",
+                "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/mcfly/,type=bind,consistency=cached",
+                "workspaceFolder": "/workspaces/mcfly/",
+                "remoteUser": "root",
+                "overrideCommand": True,
+                "initializeCommand": "touch .env",
+                "customizations": {
+                    "vscode": {
+                        "extensions": [
+                            "charliermarsh.ruff",
+                            "eamodio.gitlens",
+                            "ms-azuretools.vscode-docker",
+                            "ms-python.mypy-type-checker",
+                            "ms-python.python",
+                            "ryanluker.vscode-coverage-gutters",
+                            "tamasfe.even-better-toml",
+                            "visualstudioexptteam.vscodeintellicode",
+                        ],
+                        "settings": {
+                            "coverage-gutters.coverageFileNames": ["reports/coverage.xml"],
+                            "editor.codeActionsOnSave": {"source.fixAll": True, "source.organizeImports": True},
+                            "editor.formatOnSave": True,
+                            "editor.rulers": [100],
+                            "editor.tabSize": 4,
+                            "files.autoSave": "onFocusChange",
+                            "[python]": {"editor.defaultFormatter": "charliermarsh.ruff"},
+                            "[toml]": {"editor.formatOnSave": False},
+                            "mypy-type-checker.importStrategy": "fromEnvironment",
+                            "python.defaultInterpreterPath": "/opt/mcfly-env/bin/python",
+                            "python.terminal.activateEnvironment": False,
+                            "python.testing.pytestEnabled": True,
+                            "ruff.importStrategy": "fromEnvironment",
+                            "ruff.logLevel": "warn",
+                            "terminal.integrated.defaultProfile.linux": "zsh",
+                            "terminal.integrated.profiles.linux": {"zsh": {"path": "/usr/bin/zsh"}},
+                        },
+                    },
+                    "codespaces": {"openFiles": ["README.md"]},
+                },
+            }
+    except json.JSONDecodeError as e:
         raise AssertionError(f"Could not load: {path}") from e
