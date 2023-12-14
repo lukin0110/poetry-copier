@@ -23,8 +23,8 @@ def answers() -> dict[str, str | bool]:
         "use_private_package_repository": False,
         "python_version": "3.11.6",
         "package_slug": "mcfly",
-        "use_app": False,
-        "use_fastapi": False,
+        "use_app": True,
+        "use_fastapi": True,
         "use_gradio": False,
         "use_push_ecr": False,
     }
@@ -44,21 +44,26 @@ def test_github_generation(answers: dict[str, str | bool], expected_paths: set[s
             ".github/workflows/push_to_ghcr.yml",
             ".github/workflows/test.yml",
             ".github/dependabot.yml",
+            "src/mcfly/app.py",
         }
         assert_paths(tmpdir, expected)
-        assert_toml(Path(tmpdir) / "pyproject.toml")
-
-
-def test_gitlab_generation(answers: dict[str, str | bool], expected_paths: set[str]) -> None:
-    """Should generate all the required files."""
-    answers_ = {
-        "ci": "gitlab",
-        "repository_url": "https://gitlab.com/lukin0110/mcfly/",
-        **answers,
-    }
-    with TemporaryDirectory() as tmpdir:
-        logger.debug("GitLab package: %s", tmpdir)
-        copier.run_copy("../template", tmpdir, data=answers_, cleanup_on_error=True)
-        expected = expected_paths | {".gitlab-ci.yml"}
-        assert_paths(tmpdir, expected)
-        assert_toml(Path(tmpdir) / "pyproject.toml")
+        toml = assert_toml(Path(tmpdir) / "pyproject.toml")
+        assert toml["tool"]["poe"]["tasks"]["serve"] == {
+            "help": "Serve a REST API in production",
+            "shell": "    if [ $dev ]\n    then {\n        uvicorn --host $host --port $port --use-colors --reload --factory mcfly.app:create_app\n    } else {\n        uvicorn --host $host --port $port --use-colors --proxy-headers --timeout-graceful-shutdown 10 --timeout-keep-alive 10 --factory mcfly.app:create_app\n    } fi\n    ",
+            "args": [
+                {
+                    "help": "Bind socket to this host (default: 0.0.0.0)",
+                    "name": "host",
+                    "options": ["--host"],
+                    "default": "0.0.0.0",  # noqa: S104
+                },
+                {
+                    "help": "Bind socket to this port (default: 8000)",
+                    "name": "port",
+                    "options": ["--port"],
+                    "default": "8000",
+                },
+                {"help": "Enable development mode", "type": "boolean", "name": "dev", "options": ["--dev"]},
+            ],
+        }
