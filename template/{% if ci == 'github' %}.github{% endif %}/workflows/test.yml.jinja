@@ -9,8 +9,11 @@ on:
 
 jobs:
   test:
-    name: Lint and Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.11.6" ]
+    name: Python {% raw %}${{ matrix.python-version }}{% endraw %}
     steps:
       # https://github.com/actions/checkout
       - name: Checkout
@@ -30,7 +33,7 @@ jobs:
           DOCKER_BUILDKIT: 1
         run: |
           git config --global init.defaultBranch main
-          devcontainer up --workspace-folder .
+          PYTHON_VERSION={% raw %}${{ matrix.python-version }}{% endraw %} devcontainer up --workspace-folder .
 
       - name: Lint package
         run: devcontainer exec --workspace-folder . poe lint

@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
-FROM python:{{ python_version }}-slim AS base
+ARG PYTHON_VERSION={{ python_version }}
+FROM python:$PYTHON_VERSION-slim AS base
 
 LABEL org.opencontainers.image.description "{{ description }}"
 
