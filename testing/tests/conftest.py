@@ -27,7 +27,6 @@ def expected_paths(package_slug: str = "mcfly") -> set[str]:
     """Provide a minimal set of required paths."""
     return {
         ".devcontainer/devcontainer.json",
-        "docs/README.md",
         f"src/{package_slug}/__init__.py",
         f"src/{package_slug}/py.typed",
         f"tests/{package_slug}/__init__.py",

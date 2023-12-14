@@ -65,7 +65,6 @@ def assert_devcontainer(path: Path) -> None:
                         "extensions": [
                             "charliermarsh.ruff",
                             "eamodio.gitlens",
-                            "ms-azuretools.vscode-docker",
                             "ms-python.mypy-type-checker",
                             "ms-python.python",
                             "ryanluker.vscode-coverage-gutters",
