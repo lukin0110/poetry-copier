@@ -5,29 +5,10 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 import copier
-import pytest
 
 from .utils import assert_devcontainer, assert_paths, assert_toml
 
 logger = logging.getLogger(__name__)
-
-
-@pytest.fixture()
-def answers() -> dict[str, str | bool]:
-    """Provide answers to generate a python package."""
-    return {
-        "description": "A package used in tests to test a scaffolded python package",
-        "name": "McFly",
-        "package_type": "package",
-        "use_makefile": False,
-        "use_private_package_repository": False,
-        "python_version": "3.11.6",
-        "package_slug": "mcfly",
-        "use_app": False,
-        "use_fastapi": False,
-        "use_gradio": False,
-        "use_push_ecr": False,
-    }
 
 
 def test_github_generation(answers: dict[str, str | bool], expected_paths: set[str]) -> None:

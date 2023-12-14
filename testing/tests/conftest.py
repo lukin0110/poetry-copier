@@ -4,6 +4,25 @@ import pytest
 
 
 @pytest.fixture()
+def answers() -> dict[str, str | bool]:
+    """Provide answers to generate a python package."""
+    return {
+        "description": "A package used in tests to test a scaffolded python package",
+        "name": "McFly",
+        "package_type": "package",
+        "use_pydantic": True,
+        "use_makefile": False,
+        "use_private_package_repository": False,
+        "python_version": "3.11.6",
+        "package_slug": "mcfly",
+        "use_app": False,
+        "use_fastapi": False,
+        "use_gradio": False,
+        "use_push_ecr": False,
+    }
+
+
+@pytest.fixture()
 def expected_paths(package_slug: str = "mcfly") -> set[str]:
     """Provide a minimal set of required paths."""
     return {
