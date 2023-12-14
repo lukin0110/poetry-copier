@@ -7,7 +7,7 @@ from tempfile import TemporaryDirectory
 import copier
 import pytest
 
-from .utils import assert_paths, assert_toml
+from .utils import assert_devcontainer, assert_paths, assert_toml
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +46,7 @@ def test_github_generation(answers: dict[str, str | bool], expected_paths: set[s
             ".github/dependabot.yml",
         }
         assert_paths(tmpdir, expected)
+        assert_devcontainer(Path(tmpdir) / ".devcontainer/devcontainer.json")
         assert_toml(Path(tmpdir) / "pyproject.toml")
 
 
@@ -61,4 +62,5 @@ def test_gitlab_generation(answers: dict[str, str | bool], expected_paths: set[s
         copier.run_copy("../template", tmpdir, data=answers_, cleanup_on_error=True)
         expected = expected_paths | {".gitlab-ci.yml"}
         assert_paths(tmpdir, expected)
+        assert_devcontainer(Path(tmpdir) / ".devcontainer/devcontainer.json")
         assert_toml(Path(tmpdir) / "pyproject.toml")

@@ -1,4 +1,4 @@
-"""Test FastAPI app generation."""
+"""Test Gradio App generation."""
 
 import logging
 from pathlib import Path
@@ -24,8 +24,8 @@ def answers() -> dict[str, str | bool]:
         "python_version": "3.11.6",
         "package_slug": "mcfly",
         "use_app": True,
-        "use_fastapi": True,
-        "use_gradio": False,
+        "use_fastapi": False,
+        "use_gradio": True,
         "use_push_ecr": False,
     }
 
@@ -49,8 +49,9 @@ def test_github_generation(answers: dict[str, str | bool], expected_paths: set[s
         assert_paths(tmpdir, expected)
         toml = assert_toml(Path(tmpdir) / "pyproject.toml")
         assert toml["tool"]["poe"]["tasks"]["serve"] == {
-            "help": "Serve a REST API in production",
-            "shell": "    if [ $dev ]\n    then {\n        uvicorn --host $host --port $port --use-colors --reload --factory mcfly.app:create_app\n    } else {\n        uvicorn --host $host --port $port --use-colors --proxy-headers --timeout-graceful-shutdown 10 --timeout-keep-alive 10 --factory mcfly.app:create_app\n    } fi\n    ",
+            "help": "Serve Gradio App",
+            "cmd": "gradio src/mcfly/app.py",
+            "use_exec": True,
             "args": [
                 {
                     "help": "Bind socket to this host (default: 0.0.0.0)",
