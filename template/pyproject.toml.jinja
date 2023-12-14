@@ -13,11 +13,11 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]  # https://python-poetry.org/docs/dependency-specification/
 python = ">={{ python_version }},<4.0"
-poethepoet = ">=0.24.4"
-{% if use_fastapi %}fastapi = { extras = ["all"], version = ">=0.105.0" }
-uvicorn = { extras = ["standard"], version = ">=0.24.0" }{% endif %}
-{% if use_gradio %}gradio = ">=4.10.0"{% endif %}
-{% if use_pydantic %}pydantic = ">=2.5.2"{% endif %}
+poethepoet = ">=0.24.4"{% if use_fastapi %}
+fastapi = { extras = ["all"], version = ">=0.105.0" }
+uvicorn = { extras = ["standard"], version = ">=0.24.0" }{% endif %}{% if use_gradio %}
+gradio = ">=4.10.0"{% endif %}{% if use_pydantic %}
+pydantic = ">=2.5.2"{% endif %}
 
 [tool.poetry.group.dev.dependencies]  # https://python-poetry.org/docs/master/managing-dependencies/
 coverage = { extras = ["toml"], version = ">=7.3.3" }
@@ -34,8 +34,9 @@ typeguard = ">=4.1.5"
 
 [[tool.poetry.source]]  # https://python-poetry.org/docs/repositories/
 name = "pypi"
-priority = "primary"
-{% if use_private_package_repository %}[[tool.poetry.source]]  # https://python-poetry.org/docs/repositories/#private-repository-example
+priority = "primary"{% if use_private_package_repository %}
+
+[[tool.poetry.source]]  # https://python-poetry.org/docs/repositories/#private-repository-example
 # Configura a private package: my_private_package = { version = ">=0.0.0", source="{{ gitlab_private_package_repository_name }}" }
 name = "{{ gitlab_private_package_repository_name }}"
 url = "{{ gitlab_private_package_repository_url }}"
@@ -58,8 +59,8 @@ source = ["src"]
 output = "reports/coverage.xml"
 
 [tool.mypy]  # https://mypy.readthedocs.io/en/latest/config_file.html
-junit_xml = "reports/mypy.xml"
-{% if use_pydantic %}plugins = "pydantic.mypy"{% endif %}
+junit_xml = "reports/mypy.xml"{% if use_pydantic %}
+plugins = "pydantic.mypy"{% endif %}
 strict = true
 disallow_subclassing_any = false
 disallow_untyped_decorators = false
@@ -70,9 +71,9 @@ show_column_numbers = true
 show_error_codes = true
 show_error_context = true
 warn_unreachable = true
-mypy_path = "src"
+mypy_path = "src"{% if use_pydantic %}
 
-{% if use_pydantic %}[tool.pydantic-mypy]  # https://pydantic-docs.helpmanual.io/mypy_plugin/#configuring-the-plugin
+[tool.pydantic-mypy]  # https://pydantic-docs.helpmanual.io/mypy_plugin/#configuring-the-plugin
 init_forbid_extra = true
 init_typed = true
 warn_required_dynamic_aliases = true
@@ -151,8 +152,8 @@ convention = "numpy"
 
     [[tool.poe.tasks.test.sequence]]
     cmd = "coverage xml"
-
 {% if use_gradio %}
+
     [tool.poe.tasks.serve]
     help = "Serve Gradio App"
     cmd = "gradio src/{{ package_slug }}/app.py"
