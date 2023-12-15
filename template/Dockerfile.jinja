@@ -21,8 +21,7 @@ RUN --mount=type=cache,target=/root/.cache/pip/ \
 RUN rm /etc/apt/apt.conf.d/docker-clean
 RUN --mount=type=cache,target=/var/cache/apt/ \
     --mount=type=cache,target=/var/lib/apt/ \
-    apt-get update && \
-    apt-get install --no-install-recommends --yes curl build-essential git zsh
+    apt update && apt install --no-install-recommends --yes curl build-essential
 
 # Create and activate a virtual environment.
 RUN python -m venv /opt/{{ package_slug }}-env
@@ -47,6 +46,7 @@ FROM base AS dev
 # Install docker & starship prompt.
 RUN --mount=type=cache,target=/var/cache/apt/ \
     --mount=type=cache,target=/var/lib/apt/ \
+    apt update && apt install --no-install-recommends --yes openssh-client git zsh && \
     curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh && \
     sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- "--yes" && \
     echo 'eval "$(starship init zsh)"' >> ~/.zshrc && \
@@ -60,8 +60,7 @@ RUN --mount=type=cache,target=/root/.cache/pypoetry/ \{% if use_private_package_
 
 # Install pre-commit hooks.
 COPY .pre-commit-config.yaml /workspaces/{{ package_slug }}/
-RUN git init && git config --global --add safe.directory /workspaces/{{ package_slug }} && \
-    pre-commit install --install-hooks
+RUN git init && pre-commit install --install-hooks
 
 {% if use_private_package_repository %}# Enable Poetry to read the private package repository credentials.
 RUN ln -s /run/secrets/poetry-auth /root/.config/pypoetry/auth.toml
