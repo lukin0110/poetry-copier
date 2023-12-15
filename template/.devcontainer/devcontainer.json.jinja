@@ -11,6 +11,7 @@
   "remoteUser": "root",
   "overrideCommand": true,
   "initializeCommand": "touch .env",
+  "postStartCommand": "git config --global --add safe.directory /workspaces/{{ package_slug }}",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -47,6 +48,7 @@
         "python.defaultInterpreterPath": "/opt/{{ package_slug }}-env/bin/python",
         "python.terminal.activateEnvironment": false,
         "python.testing.pytestEnabled": true,
+        "remote.containers.copyGitConfig": true,
         "ruff.importStrategy": "fromEnvironment",
         "ruff.logLevel": "warn",
         "terminal.integrated.defaultProfile.linux": "zsh",
