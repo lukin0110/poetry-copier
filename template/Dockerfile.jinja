@@ -44,9 +44,10 @@ RUN --mount=type=cache,target=/root/.cache/pypoetry/ \{% if use_private_package_
 
 FROM base AS dev
 
-# Install starship prompt.
+# Install docker & starship prompt.
 RUN --mount=type=cache,target=/var/cache/apt/ \
     --mount=type=cache,target=/var/lib/apt/ \
+    curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh && \
     sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- "--yes" && \
     echo 'eval "$(starship init zsh)"' >> ~/.zshrc && \
     echo 'poe --help' >> ~/.zshrc && \
