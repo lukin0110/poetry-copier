@@ -6,11 +6,14 @@
     "devcontainer"
   ],
   "shutdownAction": "stopCompose",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/{{ package_slug }}/,type=bind,consistency=cached",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/{{ package_slug }}/,type=bind,consistency=delegated",
   "workspaceFolder": "/workspaces/{{ package_slug }}/",
   "remoteUser": "root",
   "overrideCommand": true,
   "initializeCommand": "touch .env",
+  "mounts": [
+    "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock,consistency=consistent"
+  ],
   "customizations": {
     "vscode": {
       "extensions": [

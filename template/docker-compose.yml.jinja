@@ -15,8 +15,6 @@ services:
     ports:
       - "8000:8000"{% endif %}
     volumes:
-      # Bind mount the Docker socket from the host to allow running Docker commands in the devcontainer
-      - /var/run/docker.sock:/var/run/docker.sock
       - .:/workspaces/{{ package_slug }}/
 {% if use_app %}
   # Container definition for running the FastAPI app in production

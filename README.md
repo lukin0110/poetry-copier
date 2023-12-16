@@ -1,5 +1,9 @@
 [![License: GNU Affero General Public License v3.0](https://img.shields.io/static/v1?label=license&message=GNU%20AFFERO&color=blue)](https://github.com/lukin0110/poetry-copier/blob/main/LICENSE) [![Open in GitHub Codespaces](https://img.shields.io/static/v1?label=GitHub%20Codespaces&message=Open&color=blue&logo=github)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=724307075)
 
+> [!IMPORTANT]
+>
+> This is undergoing significant development and may change frequently. It's not considered stable yet.
+
 # Poetry Copier
 
 A [copier](https://copier.readthedocs.io/en/stable/) template for scaffolding Python packages and/or FastAPI apps using 
