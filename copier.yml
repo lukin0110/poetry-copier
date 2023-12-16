@@ -89,7 +89,7 @@ gitlab_private_publish_repository_url:
     help: What is the URL of the private gitlab package registry to publish this package to?
     placeholder: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi"
     validator: "{% if not (gitlab_private_publish_repository_url | regex_search('https://gitlab.com/api/v4/projects/.+/packages/pypi')) %}Invalid GitLab URL to publish{% endif %}"
-    when: "{{ ci == 'gitlab' and not use_fastapi }}"
+    when: "{{ ci == 'gitlab' and package_type == 'package' }}"
 
 #######################################################################################################################
 # 2. Computed or fixed values
