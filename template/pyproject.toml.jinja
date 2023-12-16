@@ -134,7 +134,9 @@ convention = "numpy"
         --color always
     """
 
-    [[tool.poe.tasks.lint.sequence]]
+
+    [tool.poe.tasks.safety]
+    help = "Run safety checks on this package"
     shell = "safety check --continue-on-error --full-report"
 
 
