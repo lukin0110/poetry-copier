@@ -1,4 +1,4 @@
-# Design
+# Technical design
 
 Overview of design decisions and architecture of the template.
 
@@ -24,12 +24,12 @@ This is achieved by:
 
 ### 2. Installing the docker cli in the DevContainer
 
-The *DevContainer* is defined in the root *Dockerfile* as *dev* target. The installation of the docker cli is based on 
-the [installation script of docker](https://get.docker.com/).
+The image of the *DevContainer* is defined in the root [Dockerfile](../template/Dockerfile.jinja) of the template as 
+*dev* target. The installation of the docker cli is based on the [installation script of docker](https://get.docker.com/).
 
 Dockerfile snippet:
 ```dockerfile
-    install -m 0755 -d /etc/apt/keyrings && \
+RUN install -m 0755 -d /etc/apt/keyrings && \
     curl -fsSL "https://download.docker.com/linux/debian/gpg" | gpg --dearmor --yes -o /etc/apt/keyrings/docker.gpg && \
     chmod a+r /etc/apt/keyrings/docker.gpg && \
     apt_repo="deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" && \
@@ -39,7 +39,7 @@ Dockerfile snippet:
 
 > [!IMPORTANT]
 >
-> The [features](https://containers.dev/features) section of DevContainers are not used. Mainly to stay explicitly in 
-> control of what is installed in the DevContainer. Useful features are: 
+> The [features](https://containers.dev/features) section of DevContainers is not used. Mainly to stay explicitly in control of what is installed 
+> in the DevContainer. Possible useful features are: 
 > [docker-outside-of-docker](https://github.com/devcontainers/features/tree/main/src/docker-outside-of-docker) and 
 > [docker-in-docker](https://github.com/devcontainers/features/tree/main/src/docker-in-docker).
