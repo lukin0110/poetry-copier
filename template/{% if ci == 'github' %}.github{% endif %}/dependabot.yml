@@ -9,10 +9,6 @@ updates:
     directory: "/"
     schedule:
       interval: monthly
-  - package-ecosystem: pip
-    directory: "/"
-    schedule:
-      interval: monthly
     versioning-strategy: lockfile-only
     allow:
       - dependency-type: "all"
