@@ -31,13 +31,9 @@ ENV VIRTUAL_ENV /opt/{{ package_slug }}-env
 # Set the working directory.
 WORKDIR /workspaces/{{ package_slug }}/
 
-# Install the run time Python dependencies in the virtual environment.
-COPY poetry.lock* pyproject.toml /workspaces/{{ package_slug }}/
+# Touch minimal files to allow Poetry to install dependencies.
 RUN mkdir -p /root/.cache/pypoetry/ && mkdir -p /root/.config/pypoetry/ && \
     mkdir -p src/{{ package_slug }}/ && touch src/{{ package_slug }}/__init__.py && touch README.md
-RUN --mount=type=cache,target=/root/.cache/pypoetry/ \{% if use_private_package_repository %}
-    --mount=type=secret,id=poetry-auth,target=/root/.config/pypoetry/auth.toml,ro \{% endif %}
-    poetry install --only main --no-interaction --no-ansi
 
 
 
@@ -47,20 +43,22 @@ FROM base AS dev
 RUN --mount=type=cache,target=/var/cache/apt/ \
     --mount=type=cache,target=/var/lib/apt/ \
     apt update && apt install --no-install-recommends --yes openssh-client git zsh && \
+    git config --system --add safe.directory '*' && \
     curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh && \
-    sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- "--yes" && \
-    echo 'eval "$(starship init zsh)"' >> ~/.zshrc && \
-    echo 'poe --help' >> ~/.zshrc && \
-    zsh -c 'source ~/.zshrc'
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- "--yes"
 
-# Install the development Python dependencies in the virtual environment.
+# Install the run time Python dependencies in the virtual environment.
+COPY poetry.lock* pyproject.toml /workspaces/{{ package_slug }}/
 RUN --mount=type=cache,target=/root/.cache/pypoetry/ \{% if use_private_package_repository %}
     --mount=type=secret,id=poetry-auth,target=/root/.config/pypoetry/auth.toml,ro \{% endif %}
     poetry install --no-interaction --no-ansi
 
-# Install pre-commit hooks.
+# Install pre-commit hooks & activate starship.
 COPY .pre-commit-config.yaml /workspaces/{{ package_slug }}/
-RUN git init && pre-commit install --install-hooks
+RUN git init && pre-commit install --install-hooks && \
+    echo 'eval "$(starship init zsh)"' >> ~/.zshrc && \
+    echo 'poe --help' >> ~/.zshrc && \
+    zsh -c 'source ~/.zshrc'
 
 {% if use_private_package_repository %}# Enable Poetry to read the private package repository credentials.
 RUN ln -s /run/secrets/poetry-auth /root/.config/pypoetry/auth.toml
@@ -70,6 +68,12 @@ RUN ln -s /run/secrets/poetry-auth /root/.config/pypoetry/auth.toml
 
 
 {% if use_app %}FROM base AS app
+
+# Install the run time Python dependencies in the virtual environment.
+COPY poetry.lock* pyproject.toml /workspaces/{{ package_slug }}/
+RUN --mount=type=cache,target=/root/.cache/pypoetry/ \{% if use_private_package_repository %}
+    --mount=type=secret,id=poetry-auth,target=/root/.config/pypoetry/auth.toml,ro \{% endif %}
+    poetry install --only main --no-interaction --no-ansi
 
 # Copy the package source code.
 COPY . .
