@@ -34,7 +34,7 @@ Dockerfile snippet:
     chmod a+r /etc/apt/keyrings/docker.gpg && \
     apt_repo="deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" && \
     echo "$apt_repo" > /etc/apt/sources.list.d/docker.list && \
-    apt-get update && apt-get --yes install docker-ce-cli
+    apt-get update && apt-get --yes --no-install-recommends install docker-ce-cli docker-compose-plugin
 ```
 
 > [!IMPORTANT]

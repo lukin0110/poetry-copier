@@ -11,6 +11,7 @@ help:
 	@echo ""
 	@echo "Commands:"
 	@echo "  lint     Run linters"
+	@echo "  lint     Run safety"
 	@echo "  test     Run tests"
 	@echo "  lock     Update poetry lock file"
 	@echo "  shell    Open a shell in the dev container"
@@ -20,6 +21,11 @@ help:
 .PHONY: lint
 lint:
 	docker compose run devcontainer poe lint
+
+# Run safety
+.PHONY: safety
+safety:
+	docker compose run devcontainer poe safety
 
 # Run tests
 .PHONY: test
