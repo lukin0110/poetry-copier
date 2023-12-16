@@ -24,7 +24,7 @@ This template is a loose port of the [Radix Poetry Cookiecutter](https://github.
 - ⚡️ Optionally include [FastAPI](https://fastapi.tiangolo.com/) with [Pydantic V2](https://docs.pydantic.dev/2.5/)
 - 🚧 Interactive scaffolding and updates with [Copier](https://copier.readthedocs.io/en/stable/)
 
-## Using
+## 🚀 Using
 
 1. Install the latest [copier](https://copier.readthedocs.io/en/stable/#installation) in your [Python environment](https://github.com/pyenv/pyenv) _(please use python>=3.8)_:
     ```bash
@@ -42,7 +42,7 @@ This template is a loose port of the [Radix Poetry Cookiecutter](https://github.
 copier update --vcs-ref=HEAD --defaults
 ```
 
-## Rationale
+## 💭 Rationale
 This template aims to provide [dev/prod parity](https://12factor.net/dev-prod-parity) by using [Docker multi-stage builds](https://docs.docker.com/build/building/multi-stage/) and reuse the various 
 stages to *develop locally*, *run CI/CD tasks* and *publish a package/deploy an application*. Docker is key in 
 achieving this objective. It aims to establish and utilize consistent, reproducible environments, significantly 

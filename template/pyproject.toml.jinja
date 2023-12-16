@@ -92,7 +92,7 @@ ignore-init-module-imports = true
 line-length = 120
 select = ["A", "ASYNC", "B", "BLE", "C4", "C90", "D", "DTZ", "E", "EM", "ERA", "F", "FBT", "FLY", "FURB", "G", "I", "ICN", "INP", "INT", "ISC", "LOG", "N", "NPY", "PERF", "PGH", "PIE", "PLC", "PLE", "PLR", "PLW", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "S", "SIM", "SLF", "SLOT", "T10", "T20", "TCH", "TID", "TRY", "UP", "W", "YTT"]
 extend-safe-fixes = ["TID252"]  # https://docs.astral.sh/ruff/settings/#extend-safe-fixes
-ignore = ["FBT001", "E501", "EM101", "EM102", "ISC001", "RET504", "S101", "TRY003", "W505"]
+ignore = ["FBT001", "E501", "EM101", "EM102", "ISC001", "RET504", "S101", "TRY003", "TRY300", "W505"]
 unfixable = ["ERA001", "F401", "F841", "T201", "T203"]  # https://docs.astral.sh/ruff/settings/#unfixable
 src = ["src", "tests"]
 target-version = "py311"
@@ -101,7 +101,7 @@ preview = true  # https://docs.astral.sh/ruff/preview/
 
 [tool.ruff.extend-per-file-ignores] # https://docs.astral.sh/ruff/settings/#extend-per-file-ignores
 # Ignore missing __init__.py files in tests.
-"tests/*" = ["INP001"]
+"tests/*" = ["INP001", "PLR2004"]
 
 [tool.ruff.flake8-tidy-imports]
 # Disallow all relative imports.
