@@ -6,11 +6,15 @@ _message_after_copy: |
     
     Next steps:
     
-    1. Ensure that git is initialized in the project root, if not:
-    
+    1. (Optional) Ensure that git is initialized in the project root, if not:
+
        $ git init
 
-    2. Read README.md and start coding.
+    2. Generate a poetry.lock file:
+
+       $ make lock
+
+    3. Read README.md and start coding.
 
 #######################################################################################################################
 # 1. Questions for the package maintainers
