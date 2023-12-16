@@ -4,7 +4,10 @@ import json
 import os
 import tomllib
 from pathlib import Path
+from pprint import pprint
 from typing import Any
+
+from deepdiff import DeepDiff
 
 
 def assert_paths(directory: str, paths: set[str]) -> None:
@@ -49,22 +52,24 @@ def assert_devcontainer(path: Path) -> None:
     try:
         with path.open("r") as fh:
             data = json.load(fh)
-            assert data == {
+            expected = {
                 "name": "mcfly",
                 "dockerComposeFile": "../docker-compose.yml",
                 "service": "devcontainer",
                 "runServices": ["devcontainer"],
                 "shutdownAction": "stopCompose",
-                "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/mcfly/,type=bind,consistency=cached",
+                "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/mcfly/,type=bind,consistency=delegated",
                 "workspaceFolder": "/workspaces/mcfly/",
                 "remoteUser": "root",
                 "overrideCommand": True,
                 "initializeCommand": "touch .env",
+                "mounts": ["type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock,consistency=consistent"],
                 "customizations": {
                     "vscode": {
                         "extensions": [
                             "charliermarsh.ruff",
                             "eamodio.gitlens",
+                            "ms-azuretools.vscode-docker",
                             "ms-python.mypy-type-checker",
                             "ms-python.python",
                             "ryanluker.vscode-coverage-gutters",
@@ -84,14 +89,17 @@ def assert_devcontainer(path: Path) -> None:
                             "python.defaultInterpreterPath": "/opt/mcfly-env/bin/python",
                             "python.terminal.activateEnvironment": False,
                             "python.testing.pytestEnabled": True,
+                            "remote.containers.copyGitConfig": True,
                             "ruff.importStrategy": "fromEnvironment",
                             "ruff.logLevel": "warn",
                             "terminal.integrated.defaultProfile.linux": "zsh",
                             "terminal.integrated.profiles.linux": {"zsh": {"path": "/usr/bin/zsh"}},
                         },
                     },
-                    "codespaces": {"openFiles": ["README.md"]},
                 },
             }
+            diff = DeepDiff(expected, data)
+            pprint(diff)  # noqa: T203
+            assert not diff
     except json.JSONDecodeError as e:
         raise AssertionError(f"Could not load: {path}") from e

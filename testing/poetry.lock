@@ -61,6 +61,24 @@ files = [
 ]
 
 [[package]]
+name = "deepdiff"
+version = "6.7.1"
+description = "Deep Difference and Search of any Python object/data. Recreate objects by adding adding deltas to each other."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "deepdiff-6.7.1-py3-none-any.whl", hash = "sha256:58396bb7a863cbb4ed5193f548c56f18218060362311aa1dc36397b2f25108bd"},
+    {file = "deepdiff-6.7.1.tar.gz", hash = "sha256:b367e6fa6caac1c9f500adc79ada1b5b1242c50d5f716a1a4362030197847d30"},
+]
+
+[package.dependencies]
+ordered-set = ">=4.0.2,<4.2.0"
+
+[package.extras]
+cli = ["click (==8.1.3)", "pyyaml (==6.0.1)"]
+optimize = ["orjson"]
+
+[[package]]
 name = "dunamai"
 version = "1.19.0"
 description = "Dynamic version generation"
@@ -199,6 +217,20 @@ files = [
     {file = "MarkupSafe-2.1.3-cp39-cp39-win_amd64.whl", hash = "sha256:3fd4abcb888d15a94f32b75d8fd18ee162ca0c064f35b11134be77050296d6ba"},
     {file = "MarkupSafe-2.1.3.tar.gz", hash = "sha256:af598ed32d6ae86f1b747b82783958b1a4ab8f617b06fe68795c7f026abbdcad"},
 ]
+
+[[package]]
+name = "ordered-set"
+version = "4.1.0"
+description = "An OrderedSet is a custom MutableSet that remembers its order, so that every"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "ordered-set-4.1.0.tar.gz", hash = "sha256:694a8e44c87657c59292ede72891eb91d34131f6531463aab3009191c77364a8"},
+    {file = "ordered_set-4.1.0-py3-none-any.whl", hash = "sha256:046e1132c71fcf3330438a539928932caf51ddbc582496833e23de611de14562"},
+]
+
+[package.extras]
+dev = ["black", "mypy", "pytest"]
 
 [[package]]
 name = "packaging"
@@ -605,4 +637,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "600a6c911ac6313dbd61d902b46a4671305294471c5bbadaa53a498d3bd6667d"
+content-hash = "0b978870af73a5a7a1f78fd082651bcd6178b7b571c87c1c013d81824447ad59"
