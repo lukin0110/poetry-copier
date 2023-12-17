@@ -2,6 +2,19 @@
 
 Overview of design decisions and architecture of the template.
 
+## 🦺 Marked all git directories as safe
+
+When Linux users run Git commands in a Docker container within a mounted directory, they may encounter the following 
+warning: `detected dubious ownership in repository`. This issue can be resolved by marking the repository as safe. This action is performed in the `Dockerfile` in the *dev* stage. All git directories are marked as safe by the following command:
+
+```bash
+git config --system --add safe.directory '*'
+```
+
+Reasons:
+- Adding this to the [Dockerfile](../template/Dockerfile.jinja) will provide a centralized solution to the issue.
+- Using `--system` will add the config to `/etc/gitconfig`. In case `--global` is used it will be added to `~/.gitconfig`. However, this approach will cause VSCode to fail in sharing Git config and credentials from the host system with the `DevContainer`.
+
 ## 🐳 Docker support within the DevContainer
 
 The [docker cli](https://docs.docker.com/engine/reference/commandline/cli/) has been installed in the DevContainer to 

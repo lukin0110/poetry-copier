@@ -33,7 +33,7 @@ WORKDIR /workspaces/{{ package_slug }}/
 
 # Touch minimal files to allow Poetry to install dependencies.
 RUN mkdir -p /root/.cache/pypoetry/ && mkdir -p /root/.config/pypoetry/ && \
-    mkdir -p src/{{ package_slug }}/ && touch src/{{ package_slug }}/__init__.py && touch README.md
+    mkdir -p src/{{ package_slug }}/ && touch src/{{ package_slug }}/__init__.py
 
 
 

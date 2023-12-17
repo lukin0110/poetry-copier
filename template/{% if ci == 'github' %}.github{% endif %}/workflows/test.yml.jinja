@@ -1,3 +1,6 @@
+# By default, GitHub Actions don't have permission to write to the ghcr.io registry.
+# - Go to: Settings (of this repository) -> Actions -> General -> Workflow permissions
+# - Enable: Read and write permissions
 name: Lint and Test
 
 on:
@@ -10,36 +13,48 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions: write-all
     strategy:
       matrix:
         python-version: [ "3.11.6" ]
     name: Python {% raw %}${{ matrix.python-version }}{% endraw %}
+    env:
+      TAG: devcontainer-{% raw %}${{ matrix.python-version }}-${{ github.head_ref || github.ref_name }}{% endraw %}
     steps:
       # https://github.com/actions/checkout
       - name: Checkout
         uses: actions/checkout@v4
 
-      # https://github.com/actions/setup-node
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      # https://github.com/docker/login-action
+      - name: Log in to registry
+        uses: docker/login-action@v3
         with:
-          node-version: 18
+          registry: ghcr.io
+          username: {% raw %}${{ github.actor }}{% endraw %}
+          password: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
 
-      - name: Install @devcontainers/cli
-        run: npm install --location=global @devcontainers/cli@0.54.2
+      # https://github.com/devcontainers/ci
+      - name: Build DevContainer
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: {% raw %}ghcr.io/${{ github.repository }}{% endraw %}
+          cacheFrom: {% raw %}ghcr.io/${{ github.repository }}:${{ env.TAG }}{% endraw %}
+          imageTag: {% raw %}${{ env.TAG }}{% endraw %}
+          push: always
 
-      - name: Start Dev Container
-        env:
-          DOCKER_BUILDKIT: 1
-        run: |
-          git config --global init.defaultBranch main
-          PYTHON_VERSION={% raw %}${{ matrix.python-version }}{% endraw %} devcontainer up --workspace-folder .
+      - name: Run lint
+        uses: devcontainers/ci@v0.3
+        with:
+          cacheFrom: {% raw %}ghcr.io/${{ github.repository }}:${{ env.TAG }}{% endraw %}
+          push: never
+          runCmd: poe lint
 
-      - name: Lint package
-        run: devcontainer exec --workspace-folder . poe lint
-
-      - name: Test package
-        run: devcontainer exec --workspace-folder . poe test
+      - name: Run test
+        uses: devcontainers/ci@v0.3
+        with:
+          cacheFrom: {% raw %}ghcr.io/${{ github.repository }}:${{ env.TAG }}{% endraw %}
+          push: never
+          runCmd: poe test
 
       # https://github.com/codecov/codecov-action
       - name: Upload coverage
