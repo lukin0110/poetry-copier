@@ -11,6 +11,16 @@ copier copy ../poetry-copier .
 
 ## Integrations
 
+### GitHub Container Registry
+
+[GitHub Container registry](https://github.com/features/packages) is used to store DevContainer images and Application 
+images. By default, GitHub Actions don't have permission to write to the ghcr.io registry.
+
+1. Go to: *Settings (of this repository)* -> *Actions* -> *General* -> *Workflow permissions*
+2. Enable: *Read and write permissions*
+
+![GitHub Actions Permissions](img/github-actions-permissions.png)
+
 ### Codecov
 
 1. Signup on [Codecov](https://about.codecov.io/sign-up/)
