@@ -22,17 +22,12 @@ _message_after_copy: |
 name:
     type: str
     help: What is the package name?
-    validator: "{% if not (name | regex_search('^[a-zA-Z][a-zA-Z0-9 ]*$')) %}Name is required{% endif %}"
+    validator: "{% if not (name|regex_search('^[a-zA-Z][a-zA-Z0-9 ]*$')) %}Name is required{% endif %}"
 
 description:
     type: str
     help: What does the package do?
     placeholder: "A Python package that ..."
-
-repository_url:
-    type: str
-    help: What is the URL of the repository?
-    placeholder: "https://github.com/lukin0110/poetry-copier/"
 
 package_type:
     type: str
@@ -65,6 +60,17 @@ ci:
         GitLab CI: gitlab
     default: github
 
+repository_url:
+    type: str
+    help: What is the URL of this repository?
+    default: "{% if ci == 'github' %}https://github.com/<username>/<repo>/{% else %}https://gitlab.com/<username>/repo/{% endif %}"
+    validator: >-
+        {% if ci == 'github' and not (repository_url|trim|regex_search('^https://github\\.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/$')) %}
+        Invalid GitHub URL, example: https://github.com/lukin0110/poetry-copier-fastapi-demo/
+        {% elif ci == 'gitlab' and not (repository_url | regex_search('^https://gitlab\\.com/[a-zA-Z0-9/_-]+/$')) %}
+        Invalid GitHub URL, example: https://gitlab.com/lukin0110/poetry-copier-fastapi-gitlab-demo/
+        {% endif %}
+
 use_private_package_repository:
     type: bool
     help: Do you want to use a private package repository (to download proprietary packages) (y/N)?
@@ -78,21 +84,21 @@ gitlab_private_package_repository_name:
     type: str
     help: What is the name of the private GitLab package repository?
     default: "private_pypi"
-    validator: "{% if not (gitlab_private_package_repository_name | regex_search('^[a-zA-Z_]+$')) %}Invalid repository name{% endif %}"
+    validator: "{% if not (gitlab_private_package_repository_name|regex_search('^[a-zA-Z_]+$')) %}Invalid repository name{% endif %}"
     when: "{{ ci == 'gitlab' and use_private_package_repository }}"
 
 gitlab_private_package_repository_url:
     type: str
     help: What is the URL of the private gitlab package repository?
     placeholder: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi/simple"
-    validator: "{% if not (gitlab_private_package_repository_url | regex_search('https://gitlab.com/api/v4/projects/[0-9]+/packages/pypi')) %}Invalid GitLab URL{% endif %}"
+    validator: "{% if not (gitlab_private_package_repository_url|regex_search('https://gitlab.com/api/v4/projects/[0-9]+/packages/pypi')) %}Invalid GitLab URL{% endif %}"
     when: "{{ ci == 'gitlab' and use_private_package_repository }}"
 
 gitlab_private_publish_repository_url:
     type: str
     help: What is the URL of the private gitlab package registry to publish this package to?
     placeholder: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi"
-    validator: "{% if not (gitlab_private_publish_repository_url | regex_search('https://gitlab.com/api/v4/projects/.+/packages/pypi')) %}Invalid GitLab URL to publish{% endif %}"
+    validator: "{% if not (gitlab_private_publish_repository_url|regex_search('https://gitlab.com/api/v4/projects/.+/packages/pypi')) %}Invalid GitLab URL to publish{% endif %}"
     when: "{{ ci == 'gitlab' and package_type == 'package' }}"
 
 #######################################################################################################################
