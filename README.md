@@ -10,6 +10,10 @@ A [copier](https://copier.readthedocs.io/en/stable/) template for scaffolding Py
 
 This template is a loose port of the [Radix Poetry Cookiecutter](https://github.com/radix-ai/poetry-cookiecutter) and comes with the same [LICENSE](LICENSE).
 
+## 💻 Demo
+Check out the [Poetry Copier FastAPI Demo](https://github.com/lukin0110/poetry-copier-fastapi-demo) for an example of a 
+FastAPI application scaffolded using this template.
+
 ## 🎉 Features
 
 - 🐳 Reproducible [Docker](https://www.docker.com/) based development environments with [VSCode Dev Containers](https://code.visualstudio.com/docs/remote/containers) and [GitHub Codespaces](https://github.com/features/codespaces) 
