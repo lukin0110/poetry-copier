@@ -26,9 +26,7 @@ services:
         - poetry-auth{% endif %}
     tty: true
     ports:
-      - "8000:8000"
-    expose:
-      - 8000
+      - "8001:8000"
     volumes:
       - .:/workspaces/{{ package_slug }}/
     command: ["serve", "--dev"]

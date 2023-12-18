@@ -62,7 +62,7 @@ def assert_devcontainer(path: Path) -> None:
                 "workspaceFolder": "/workspaces/mcfly/",
                 "remoteUser": "root",
                 "overrideCommand": True,
-                "initializeCommand": "touch .env",
+                "initializeCommand": "touch ${localWorkspaceFolder}/.env",
                 "mounts": ["type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock,consistency=consistent"],
                 "customizations": {
                     "vscode": {
