@@ -10,7 +10,7 @@
   "workspaceFolder": "/workspaces/{{ package_slug }}/",
   "remoteUser": "root",
   "overrideCommand": true,
-  "initializeCommand": "touch .env",
+  "initializeCommand": "touch ${localWorkspaceFolder}/.env",
   "mounts": [
     "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock,consistency=consistent"
   ],
