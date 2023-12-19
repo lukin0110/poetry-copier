@@ -1,4 +1,5 @@
 # Convenient shortcuts to run some tasks
+# Useful if you're not using DevContainers
 
 # Default target when just `make` is executed
 default: help
