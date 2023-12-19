@@ -11,9 +11,7 @@ services:
     secrets:
       - poetry-auth{% endif %}
     stdin_open: true
-    tty: true{% if use_app %}
-    ports:
-      - "8000:8000"{% endif %}
+    tty: true
     volumes:
       - .:/workspaces/{{ package_slug }}/
 {% if use_app %}
