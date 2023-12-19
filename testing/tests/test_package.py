@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 
 import copier
 
-from .utils import assert_devcontainer, assert_paths, assert_toml
+from .utils import assert_devcontainer, assert_paths, assert_toml, assert_yaml
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +28,8 @@ def test_github_generation(answers: dict[str, str | bool], expected_paths: set[s
         assert_paths(tmpdir, expected)
         assert_devcontainer(Path(tmpdir) / ".devcontainer/devcontainer.json")
         assert_toml(Path(tmpdir) / "pyproject.toml")
+        assert_yaml(Path(tmpdir) / ".pre-commit-config.yaml")
+        assert_yaml(Path(tmpdir) / "docker-compose.yml")
 
 
 def test_gitlab_generation(answers: dict[str, str | bool], expected_paths: set[str]) -> None:
@@ -44,3 +46,5 @@ def test_gitlab_generation(answers: dict[str, str | bool], expected_paths: set[s
         assert_paths(tmpdir, expected)
         assert_devcontainer(Path(tmpdir) / ".devcontainer/devcontainer.json")
         assert_toml(Path(tmpdir) / "pyproject.toml")
+        assert_yaml(Path(tmpdir) / ".pre-commit-config.yaml")
+        assert_yaml(Path(tmpdir) / "docker-compose.yml")
