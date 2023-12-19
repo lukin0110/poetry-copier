@@ -22,7 +22,12 @@ _message_after_copy: |
 name:
     type: str
     help: What is the package name?
-    validator: "{% if not (name|regex_search('^[a-zA-Z][a-zA-Z0-9 ]*$')) %}Name is required{% endif %}"
+    validator: >-
+        {% if not name %}
+        Name is required.
+        {% elif not (name|regex_search('^[a-zA-Z](?:[a-zA-Z0-9]| (?![ ]))*$')) %}
+        Only alphanumeric characters and single spaces are allowed.
+        {% endif %}
 
 description:
     type: str
@@ -111,10 +116,11 @@ python_version:
     default: "3.11.6"
     when: false
 
+# The validator of the `name` field ensures that the name only contains alphanumeric characters and single spaces.
 package_slug:
     type: str
     help: A slug of the package name?
-    default: "{{ name|lower|replace(' ', '_') }}"
+    default: "{{ name|lower|trim|replace(' ', '_') }}"
     when: false
 
 use_app:
