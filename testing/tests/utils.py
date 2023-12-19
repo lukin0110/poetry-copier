@@ -7,6 +7,7 @@ from pathlib import Path
 from pprint import pprint
 from typing import Any
 
+import yaml
 from deepdiff import DeepDiff
 
 
@@ -44,6 +45,15 @@ def assert_toml(path: Path) -> dict[str, Any]:
         with path.open("rb") as fh:
             return tomllib.load(fh)
     except tomllib.TOMLDecodeError as e:
+        raise AssertionError(f"Could not load: {path}") from e
+
+
+def assert_yaml(path: Path) -> dict[str, Any]:
+    """Check if the given path is a valid yaml file."""
+    try:
+        with path.open("r") as fh:
+            return yaml.full_load(fh)
+    except yaml.YAMLError as e:
         raise AssertionError(f"Could not load: {path}") from e
 
 

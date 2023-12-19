@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 
 import copier
 
-from .utils import assert_paths, assert_toml
+from .utils import assert_paths, assert_toml, assert_yaml
 
 logger = logging.getLogger(__name__)
 
@@ -50,3 +50,5 @@ def test_github_generation(answers: dict[str, str | bool], expected_paths: set[s
                 {"help": "Enable development mode", "type": "boolean", "name": "dev", "options": ["--dev"]},
             ],
         }
+        assert_yaml(Path(tmpdir) / ".pre-commit-config.yaml")
+        assert_yaml(Path(tmpdir) / "docker-compose.yml")
