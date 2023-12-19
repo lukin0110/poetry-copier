@@ -103,6 +103,7 @@ gitlab_private_publish_repository_url:
 
 #######################################################################################################################
 # 2. Computed or fixed values
+# Compute, don't prompt. https://github.com/copier-org/copier/issues/716#issuecomment-1263307193
 #######################################################################################################################
 python_version:
     type: str
@@ -113,8 +114,7 @@ python_version:
 package_slug:
     type: str
     help: A slug of the package name?
-    default: "{% from 'macros/slugify.jinja' import slugify %}{{ slugify(name) }}"
-    # Compute, don't prompt. https://github.com/copier-org/copier/issues/716#issuecomment-1263307193
+    default: "{{ name|lower|replace(' ', '_') }}"
     when: false
 
 use_app:
