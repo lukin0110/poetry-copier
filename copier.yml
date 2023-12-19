@@ -40,7 +40,7 @@ package_type:
 
 use_pydantic:
     type: bool
-    help: Do you want to use Pydantic (y/n)?
+    help: Do you want to use Pydantic (y/N)?
     default: "{% if package_type == 'fastapi' %}yes{% else %}no{% endif %}"
     when: "{{ package_type != 'fastapi' }}"
 

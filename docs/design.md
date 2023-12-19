@@ -2,7 +2,7 @@
 
 Overview of design decisions and architecture of the template.
 
-## 🦺 Marked all git directories as safe
+## 🦺 All git directories marked as safe within the DevContainer
 
 When Linux users run Git commands in a Docker container within a mounted directory, they may encounter the following 
 warning: `detected dubious ownership in repository`. This issue can be resolved by marking the repository as safe. This action is performed in the `Dockerfile` in the *dev* stage. All git directories are marked as safe by the following command:
