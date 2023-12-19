@@ -48,3 +48,20 @@ def test_gitlab_generation(answers: dict[str, str | bool], expected_paths: set[s
         assert_toml(Path(tmpdir) / "pyproject.toml")
         assert_yaml(Path(tmpdir) / ".pre-commit-config.yaml")
         assert_yaml(Path(tmpdir) / "docker-compose.yml")
+
+
+def test_no_ci_generation(answers: dict[str, str | bool], expected_paths: set[str]) -> None:
+    """Should generate all the required files."""
+    answers_ = {
+        "ci": "none",
+        "repository_url": "https://gitlab.com/lukin0110/mcfly/",
+        **answers,
+    }
+    with TemporaryDirectory() as tmpdir:
+        logger.debug("No CI package: %s", tmpdir)
+        copier.run_copy("../template", tmpdir, data=answers_, cleanup_on_error=True)
+        assert_paths(tmpdir, expected_paths)
+        assert_devcontainer(Path(tmpdir) / ".devcontainer/devcontainer.json")
+        assert_toml(Path(tmpdir) / "pyproject.toml")
+        assert_yaml(Path(tmpdir) / ".pre-commit-config.yaml")
+        assert_yaml(Path(tmpdir) / "docker-compose.yml")
