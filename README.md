@@ -1,4 +1,5 @@
-[![License: GNU Affero General Public License v3.0](https://img.shields.io/static/v1?label=license&message=GNU%20AFFERO&color=blue)](https://github.com/lukin0110/poetry-copier/blob/main/LICENSE) ![CI](https://github.com/lukin0110/poetry-copier/actions/workflows/test.yml/badge.svg?branch=main)
+[![License: GNU Affero General Public License v3.0](https://img.shields.io/static/v1?label=license&message=GNU%20AFFERO&color=blue)](https://github.com/lukin0110/poetry-copier/blob/main/LICENSE) ![CI](https://github.com/lukin0110/poetry-copier/actions/workflows/test.yml/badge.svg?branch=main) [![GitHub Repo stars](https://img.shields.io/github/stars/lukin0110/poetry-copier)
+](https://github.com/lukin0110/poetry-copier/stargazers)
 
 > [!IMPORTANT]
 >
@@ -6,7 +7,8 @@
 
 # Poetry Copier
 
-A [copier](https://copier.readthedocs.io/en/stable/) template for scaffolding Python packages and apps (FastAPI and Gradio) using [Poetry](https://python-poetry.org/) as package manager.
+A [copier](https://copier.readthedocs.io/en/stable/) template for scaffolding Python packages and apps (FastAPI and Gradio) using [Poetry](https://python-poetry.org/) as package 
+manager and [DevContainers](https://containers.dev/) as reproducible development environment.
 
 This template is a loose port of the [Radix Poetry Cookiecutter](https://github.com/radix-ai/poetry-cookiecutter) and comes with the same [LICENSE](LICENSE).
 
@@ -41,12 +43,13 @@ Check out the following demos for examples of scaffolded projects using this tem
     ```bash
     copier copy --vcs-ref=HEAD git@github.com:lukin0110/poetry-copier.git .
     ```
-   
+
 ### Updating a project
 
 ```bash
 copier update --vcs-ref=HEAD --defaults
 ```
+More information on how to update a project and resolve conflicts can be found in the [Copier documentation](https://copier.readthedocs.io/en/stable/updating/).   
 
 ## 💭 Rationale
 This template aims to provide [dev/prod parity](https://12factor.net/dev-prod-parity) by using [Docker multi-stage builds](https://docs.docker.com/build/building/multi-stage/) and reuse the various 
@@ -54,3 +57,11 @@ stages to *develop locally*, *run CI/CD tasks* and *publish a package/deploy an 
 achieving this objective. It aims to establish and utilize consistent, reproducible environments, significantly 
 reducing the effort required to initiate a project upon checkout. The template is designed so that you can choose how 
 you want to develop locally, either using Docker or Poetry directly (without Docker).
+
+---
+
+👷🏼 **Troubleshooting**: [docs/troubleshooting.md](https://github.com/lukin0110/poetry-copier/blob/main/docs/troubleshooting.md)
+
+🎨 **Technical design**: [docs/design.md](https://github.com/lukin0110/poetry-copier/blob/main/docs/design.md)
+
+🛠️ [Open an issue](https://github.com/lukin0110/poetry-copier/issues/new) if you have any questions or suggestions
