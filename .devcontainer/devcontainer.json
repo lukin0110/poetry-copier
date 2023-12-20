@@ -1,0 +1,39 @@
+{
+    "name": "Poetry Copier",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11",
+    "containerEnv": {
+        "POETRY_VIRTUALENVS_IN_PROJECT": "true"
+    },
+    "onCreateCommand": "pip install poetry==1.7.1 && cd testing && poetry install --no-root",
+    "remoteUser": "vscode",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "charliermarsh.ruff",
+                "ms-python.python",
+                "tamasfe.even-better-toml",
+                "visualstudioexptteam.vscodeintellicode"
+            ],
+            "settings": {
+                "editor.codeActionsOnSave": {
+                    "source.fixAll": true,
+                    "source.organizeImports": true
+                },
+                "editor.formatOnSave": true,
+                "editor.rulers": [
+                    100
+                ],
+                "editor.tabSize": 4,
+                "files.autoSave": "onFocusChange",
+                "[python]": {
+                    "editor.defaultFormatter": "charliermarsh.ruff"
+                },
+                "[toml]": {
+                    "editor.formatOnSave": false
+                },
+                "python.defaultInterpreterPath": "/workspaces/poetry-copier/testing/.venv/bin/python",
+                "remote.containers.copyGitConfig": true
+            }
+        }
+    }
+}
