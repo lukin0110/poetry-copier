@@ -1,2 +1,5 @@
 # PyCharm
 .idea/
+
+# Unit test / coverage reports
+reports/
