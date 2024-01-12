@@ -41,6 +41,8 @@ jobs:
       # https://github.com/devcontainers/ci
       - name: Build DevContainer
         uses: devcontainers/ci@v0.3
+        env:
+          PYTHON_VERSION: {% raw %}${{ matrix.python-version }}{% endraw %}
         with:
           imageName: {% raw %}ghcr.io/${{ github.repository }}{% endraw %}
           cacheFrom: {% raw %}ghcr.io/${{ github.repository }}:${{ env.TAG }}{% endraw %}
