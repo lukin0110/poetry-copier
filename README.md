@@ -8,7 +8,7 @@
 # Poetry Copier
 
 A [copier](https://copier.readthedocs.io/en/stable/) template for scaffolding Python packages and apps (FastAPI and Gradio) using [Poetry](https://python-poetry.org/) as package 
-manager and [DevContainers](https://containers.dev/) as reproducible development environment.
+manager and [Development Containers](https://containers.dev/) as reproducible development environment.
 
 This template is a loose port of the [Radix Poetry Cookiecutter](https://github.com/radix-ai/poetry-cookiecutter) and comes with the same [LICENSE](LICENSE).
 
@@ -21,7 +21,8 @@ Check out the following demos for examples of scaffolded projects using this tem
 
 ## 🎉 Features
 
-- 🐳 Reproducible [Docker](https://www.docker.com/) based development environments with [Docker Compose](https://docs.docker.com/compose/), [VSCode Dev Containers](https://code.visualstudio.com/docs/remote/containers) and [GitHub Codespaces](https://github.com/features/codespaces)
+- 🐳 Reproducible [Docker](https://www.docker.com/) based development environments with [Docker Compose](https://docs.docker.com/compose/) and [Development Containers](https://containers.dev/)
+- 🤝 Integrated support for [VSCode](https://code.visualstudio.com/) with [VSCode Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) and [GitHub Codespaces](https://github.com/features/codespaces)
 - 🐍 Scaffold a Python package or a [FastAPI](https://fastapi.tiangolo.com/) app with [Pydantic V2](https://docs.pydantic.dev/2.5/) or a [Gradio](https://www.gradio.app/) app to demo Machine Learning models
 - 📦 Dependency management with [Poetry](https://python-poetry.org/)
 - 🏃 Task running with [Poe the Poet](https://poethepoet.natn.io/index.html)
@@ -52,11 +53,24 @@ copier update --vcs-ref=HEAD --defaults
 More information on how to update a project and resolve conflicts can be found in the [Copier documentation](https://copier.readthedocs.io/en/stable/updating/).   
 
 ## 💭 Rationale
-This template aims to provide [dev/prod parity](https://12factor.net/dev-prod-parity) by using [Docker multi-stage builds](https://docs.docker.com/build/building/multi-stage/) and reuse the various 
-stages to *develop locally*, *run CI/CD tasks* and *publish a package/deploy an application*. Docker is key in 
-achieving this objective. It aims to establish and utilize consistent, reproducible environments, significantly 
-reducing the effort required to initiate a project upon checkout. The template is designed so that you can choose how 
-you want to develop locally, either using Docker or Poetry directly (without Docker).
+This template aims to provide a minimal, but fully functional, project structure for any python project. Focus on what matters: **coding!**  
+
+Setting up a project can be tedious and requires a lot of "plumbing" to get `CI/CD` right, to get `pyproject.toml` right, to get the `Dockerfile` right, etc.
+
+The use of [Docker](https://www.docker.com/) in conjunction with [Development Containers](https://containers.dev/) are key in this template to provide a smooth development experience. It's possible to develop without a *Development Container* and use [Poetry](https://python-poetry.org/) with [virtual Environment](https://docs.python.org/3/library/venv.html) straight away, however the template is optimized to provide a smooth development environment with development containers.
+
+> [!Note]
+>
+> This template is not a good fit if you don't want to work with *Docker* and/or *Development Containers*.
+
+## 🎯 Goals
+
+- Reduce project setup
+- Provide [dev/prod parity](https://12factor.net/dev-prod-parity)
+- [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) idependent. However, with a strong focus on [VSCode](https://code.visualstudio.com/) since it integrates nicely with *GitHub*, *Development Containers* and *GitHub Copilot*
+- Provide a minimal workable setup
+- Don't enforce application or package architecture
+- Include *usual suspects* of every project: CI/CD, linting, testing, development container, poetry setup, etc
 
 ---
 
