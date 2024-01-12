@@ -15,6 +15,7 @@
                 "visualstudioexptteam.vscodeintellicode"
             ],
             "settings": {
+                "dev.containers.copyGitConfig": true,
                 "editor.codeActionsOnSave": {
                     "source.fixAll": true,
                     "source.organizeImports": true
@@ -31,8 +32,7 @@
                 "[toml]": {
                     "editor.formatOnSave": false
                 },
-                "python.defaultInterpreterPath": "/workspaces/poetry-copier/testing/.venv/bin/python",
-                "remote.containers.copyGitConfig": true
+                "python.defaultInterpreterPath": "/workspaces/poetry-copier/testing/.venv/bin/python"
             }
         }
     }
