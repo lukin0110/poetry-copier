@@ -15,8 +15,9 @@ build-backend = "poetry.core.masonry.api"
 python = ">={{ python_version }},<4.0"
 poethepoet = ">=0.24.4"{% if use_fastapi %}
 fastapi = { extras = ["all"], version = ">=0.109.0" }
-uvicorn = { extras = ["standard"], version = ">=0.25.0" }{% endif %}{% if use_gradio %}
-gradio = ">=4.14.0"{% endif %}{% if use_pydantic %}
+uvicorn = { extras = ["standard"], version = ">=0.25.0" }{% elif use_gradio %}
+gradio = ">=4.14.0"{% elif use_streamlit %}
+streamlit = ">=1.30.0"{% endif %}{% if use_pydantic %}
 pydantic = ">=2.5.3"{% endif %}
 
 [tool.poetry.group.dev.dependencies]  # https://python-poetry.org/docs/master/managing-dependencies/
@@ -152,13 +153,8 @@ convention = "numpy"
 
     [[tool.poe.tasks.test.sequence]]
     cmd = "coverage xml"
-{% if use_gradio %}
+{% if use_fastapi %}
 
-    [tool.poe.tasks.serve]
-    help = "Serve Gradio App"
-    cmd = "gradio src/{{ package_slug }}/app.py"
-    use_exec = true
-{% endif %}{% if use_fastapi %}
     [tool.poe.tasks.serve]  # https://www.uvicorn.org/settings/
     help = "Serve a REST API in production"
     shell = """
@@ -183,6 +179,25 @@ convention = "numpy"
           {{ package_slug }}.app:create_app
     } fi
     """
+{% elif use_gradio %}
+    [tool.poe.tasks.serve]
+    help = "Serve Gradio App"
+    cmd = "gradio src/{{ package_slug }}/app.py"
+    use_exec = true
+{% elif use_streamlit %}
+    [tool.poe.tasks.serve]  # https://docs.streamlit.io/library/advanced-features/cli
+    help = "Serve a Streamlit app"
+    cmd = """
+        streamlit run
+        --server.address $host
+        --server.port $port
+        --logger.level info
+        --server.runOnSave true
+        --server.fileWatcherType poll
+        --theme.base dark
+        src/{{ package_slug }}/app.py
+        """
+    use_exec = true
 {% endif %}{% if use_app %}
     [[tool.poe.tasks.serve.args]]
     help = "Bind socket to this host (default: 0.0.0.0)"
