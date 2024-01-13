@@ -10,6 +10,7 @@
         "vscode": {
             "extensions": [
                 "charliermarsh.ruff",
+                "github.vscode-github-actions",
                 "ms-python.python",
                 "tamasfe.even-better-toml",
                 "visualstudioexptteam.vscodeintellicode"

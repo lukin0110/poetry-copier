@@ -88,3 +88,59 @@ jobs:
       - name: Test package
         working-directory: generated
         run: devcontainer exec --workspace-folder . poe test
+
+  generate_fastapi:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+    name: Generate FastAPI app (Python ${{ matrix.python-version }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Generate FastAPI app
+        run: |
+          pip install copier==9.1.0
+          rm -Rf .git/
+          copier copy . ./generated/ \
+          --quiet \
+          --data ci="github" \
+          --data repository_url="https://github.com/lukin0110/mcfly-api/" \
+          --data name="McFly API" \
+          --data description="A package used in tests to test a scaffolded FastAPI app" \
+          --data package_type="fastapi" \
+          --data use_pydantic=yes \
+          --data use_makefile=no \
+          --data use_private_package_repository=no \
+          --data python_version="3.11.6" \
+          --data package_slug="mcfly"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install @devcontainers/cli
+        run: npm install --location=global @devcontainers/cli@0.54.2
+
+      - name: Start Dev Container
+        working-directory: generated
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          git init
+          devcontainer up --workspace-folder .
+
+      - name: Lint package
+        working-directory: generated
+        run: devcontainer exec --workspace-folder . poe lint
+
+      - name: Test package
+        working-directory: generated
+        run: devcontainer exec --workspace-folder . poe test
