@@ -6,7 +6,7 @@
 
 Scaffold locally:
 ```bash
-copier copy ../poetry-copier .
+copier copy --vcs-ref HEAD ../poetry-copier .
 ```
 
 ## Useful reads

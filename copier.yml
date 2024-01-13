@@ -41,6 +41,7 @@ package_type:
         Python Package: package
         FastAPI App: fastapi
         Gradio App: gradio
+        Streamlit App: streamlit
     default: package
 
 use_pydantic:
@@ -147,6 +148,12 @@ use_gradio:
     type: bool
     help: Do you want to use Gradio (y/N)?
     default: "{% if package_type == 'gradio' %}yes{% else %}no{% endif %}"
+    when: false
+
+use_streamlit:
+    type: bool
+    help: Do you want to use Streamlit (y/N)?
+    default: "{% if package_type == 'streamlit' %}yes{% else %}no{% endif %}"
     when: false
 
 use_push_ecr:
