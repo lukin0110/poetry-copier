@@ -1,10 +1,9 @@
 {
     "name": "Poetry Copier",
-    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11",
-    "containerEnv": {
-        "POETRY_VIRTUALENVS_IN_PROJECT": "true"
+    "build": {
+        "context": "..",
+        "dockerfile": "Dockerfile"
     },
-    "onCreateCommand": "pip install poetry==1.7.1 && cd testing && poetry install --no-root",
     "remoteUser": "vscode",
     "customizations": {
         "vscode": {
@@ -33,7 +32,7 @@
                 "[toml]": {
                     "editor.formatOnSave": false
                 },
-                "python.defaultInterpreterPath": "/workspaces/poetry-copier/testing/.venv/bin/python"
+                "python.defaultInterpreterPath": "/opt/testing-env/bin/python"
             }
         }
     }
