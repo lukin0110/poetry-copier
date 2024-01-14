@@ -57,7 +57,7 @@ This template aims to provide a minimal, but fully functional, project structure
 
 Setting up a project can be tedious and requires a lot of "plumbing" to get `CI/CD` right, to get `pyproject.toml` right, to get the `Dockerfile` right, etc.
 
-The use of [Docker](https://www.docker.com/) in conjunction with [Development Containers](https://containers.dev/) are key in this template to provide a smooth development experience. It's possible to develop without a *Development Container* and use [Poetry](https://python-poetry.org/) with [virtual Environment](https://docs.python.org/3/library/venv.html) straight away, however the template is optimized to provide a smooth development environment with development containers.
+The use of [Docker](https://www.docker.com/) in conjunction with [Development Containers](https://containers.dev/) are key in this template to provide a smooth development experience. It's possible to develop without a *Development Container* and use [Poetry](https://python-poetry.org/) with [virtual environments](https://docs.python.org/3/library/venv.html) straight away, however this template is optimized to provide a working development environment with development containers.
 
 > [!Note]
 >
@@ -70,7 +70,7 @@ The use of [Docker](https://www.docker.com/) in conjunction with [Development Co
 - [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) idependent. However, with a strong focus on [VSCode](https://code.visualstudio.com/) since it integrates nicely with *GitHub*, *Development Containers* and *GitHub Copilot*
 - Provide a minimal workable setup
 - Don't enforce application or package architecture
-- Include *usual suspects* of every project: CI/CD, linting, testing, development container, poetry setup, etc
+- Include the *usual suspects* of every project: CI/CD, linting, testing, package manager, development container, etc
 
 ---
 
