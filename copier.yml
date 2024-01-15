@@ -25,7 +25,7 @@ name:
     validator: >-
         {% if not name %}
         Name is required.
-        {% elif not (name|regex_search('^[a-zA-Z](?:[a-zA-Z0-9]| (?![ ]))*$')) %}
+        {% elif not (name | regex_search('^[a-zA-Z](?:[a-zA-Z0-9]| (?![ ]))*$')) %}
         Only alphanumeric characters and single spaces are allowed.
         {% endif %}
 
@@ -72,7 +72,7 @@ repository_url:
     help: What is the URL of this repository?
     default: "{% if ci == 'github' %}https://github.com/<username>/<repo>/{% else %}https://gitlab.com/<username>/repo/{% endif %}"
     validator: >-
-        {% if ci == 'github' and not (repository_url|trim|regex_search('^https://github\\.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/$')) %}
+        {% if ci == 'github' and not (repository_url | trim | regex_search('^https://github\\.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/$')) %}
         Invalid GitHub URL, example: https://github.com/lukin0110/poetry-copier-fastapi-demo/
         {% elif ci == 'gitlab' and not (repository_url | regex_search('^https://gitlab\\.com/[a-zA-Z0-9/_-]+/$')) %}
         Invalid GitHub URL, example: https://gitlab.com/lukin0110/poetry-copier-fastapi-gitlab-demo/
@@ -80,40 +80,56 @@ repository_url:
         Repository URL is required.
         {% endif %}
 
+# 1.2.1 Configure private package repository
 use_private_package_repository:
     type: bool
-    help: Do you want to use a private package repository (to download proprietary packages) (y/N)?
+    help: Use a private package repository to download proprietary packages (y/N)?
     default: no
-    # NOTE: only available for GitLab CI for the moment
-    when: "{{ ci == 'gitlab' }}"
 
-# 1.2.1 Setup GitHub CI/CD
-# TODO: setup private package support (https://github.com/lukin0110/poetry-copier/issues/17)
-
-# 1.2.2 Setup GitLab CI/CD
-gitlab_private_package_repository_name:
+private_package_repository_name:
     type: str
-    help: What is the name of the private GitLab package repository?
+    help: What is the name of the private package repository?
     default: "private_pypi"
-    validator: "{% if not (gitlab_private_package_repository_name|regex_search('^[a-zA-Z_]+$')) %}Invalid repository name{% endif %}"
-    when: "{{ ci == 'gitlab' and use_private_package_repository }}"
+    when: "{{ use_private_package_repository }}"
+    validator: "{% if not (private_package_repository_name | regex_search('^[a-zA-Z_]+$')) %}Invalid repository name{% endif %}"
 
-gitlab_private_package_repository_url:
+private_package_repository_url:
     type: str
     help: What is the URL of the private gitlab package repository?
-    placeholder: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi/simple"
-    validator: "{% if not (gitlab_private_package_repository_url|regex_search('https://gitlab.com/api/v4/projects/[0-9]+/packages/pypi')) %}Invalid GitLab URL{% endif %}"
-    when: "{{ ci == 'gitlab' and use_private_package_repository }}"
+    default: "{% if ci == 'gitlab' %}https://gitlab.com/api/v4/projects/<project_id>/packages/pypi/simple{% else %}https://<private-pypi-url>/simple{% endif %}"
+    when: "{{ use_private_package_repository }}"
+    validator: >-
+        {% if ci == 'gitlab' and not (private_package_repository_url | regex_search('https://gitlab.com/api/v4/projects/[0-9]+/packages/pypi/simple')) %}
+        Invalid GitLab URL for private package repository, example: https://gitlab.com/api/v4/projects/1234/packages/pypi/simple
+        {% elif not private_package_repository_url | regex_search('^https:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$') %}
+        Invalid URL for private package repository, example: https://private-pypi.org/simple
+        {% elif not private_package_repository_url %}
+        Private repository URL is required.
+        {% endif %}
 
-gitlab_private_publish_repository_url:
+# 1.2.2 Configure package publishing
+use_private_publish_repository:
+    type: bool
+    help: Use a private package repository to publish this package to (y/N)?
+    default: no
+    when: "{{ package_type == 'package' }}"
+
+private_publish_repository_url:
     type: str
-    help: What is the URL of the private gitlab package registry to publish this package to?
-    placeholder: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi"
-    validator: "{% if not (gitlab_private_publish_repository_url|regex_search('https://gitlab.com/api/v4/projects/.+/packages/pypi')) %}Invalid GitLab URL to publish{% endif %}"
-    when: "{{ ci == 'gitlab' and package_type == 'package' }}"
+    help: URL of the private package repository to publish this package to?
+    default: "{% if ci == 'gitlab' %}https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi{% else %}https://<private-pypi-url>{% endif %}"
+    when: "{{ use_private_publish_repository }}"
+    validator: >-
+        {% if ci == 'gitlab' and not (private_publish_repository_url | regex_search('https://gitlab.com/api/v4/projects/.+/packages/pypi')) %}
+        Invalid GitLab URL to publish, example: https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi
+        {% elif not private_publish_repository_url | regex_search('^https:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$') %}
+        Invalid URL for private publish repository, example: https://private-pypi.org/simple
+        {% elif not private_publish_repository_url %}
+        Private publish repository URL is required.
+        {% endif %}
 
-# 1.2.3 Setup No CI
-# TODO: configure private package repository (to download proprietary packages)
+# 1.2.3 Setup GitHub CI/CD
+# TODO: setup private package support (https://github.com/lukin0110/poetry-copier/issues/17)
 
 #######################################################################################################################
 # 2. Computed or fixed values
@@ -125,11 +141,17 @@ python_version:
     default: "3.11.6"
     when: false
 
+poetry_version:
+    type: str
+    help: What Poetry version do you want to use?
+    default: "1.7.1"
+    when: false
+
 # The validator of the `name` field ensures that the name only contains alphanumeric characters and single spaces.
 package_slug:
     type: str
     help: A slug of the package name?
-    default: "{{ name|lower|trim|replace(' ', '_') }}"
+    default: "{{ name | lower | trim | replace(' ', '_') }}"
     when: false
 
 use_app:

@@ -37,7 +37,7 @@ stages:
         echo -e "\e[95m$DOCKER_IMAGE:$DOCKER_IMAGE_SHA exists, skipping this job...\e[0m"
       else
         echo "Build $DOCKER_IMAGE:$DOCKER_IMAGE_SHA"
-        echo "[http-basic.{{ gitlab_private_package_repository_name }}]" >> auth.toml
+        echo "[http-basic.{{ private_package_repository_name }}]" >> auth.toml
         echo "username = \"gitlab-ci-token\"" >> auth.toml
         echo "password = \"$CI_JOB_TOKEN\"" >> auth.toml
         docker pull $CI_REGISTRY_IMAGE/ci:$CI_IMAGE_SHA || true
@@ -145,12 +145,14 @@ gemnasium-python-dependency_scanning:
 Publish:
   stage: Publish
   image: $CI_REGISTRY_IMAGE/ci:$CI_IMAGE_SHA
-  script:
+  script:{% if use_private_publish_repository %}
     - rm /root/.config/pypoetry/auth.toml
-    - poetry config repositories.private {{ gitlab_private_publish_repository_url }}
+    - poetry config repositories.private {{ private_publish_repository_url }}
     - poetry config http-basic.private "gitlab-ci-token" "$CI_JOB_TOKEN"
-    - poetry publish --build --repository private
-  needs: ["Test"]
+    - poetry publish --build --repository private{% else %}
+    - poetry config pypi-token.pypi "$POETRY_PYPI_TOKEN_PYPI"
+    - poetry publish --build{% endif %}
+  needs: ["Build CI image", "Test"]
   when: manual
 #  only:
 #    - tags

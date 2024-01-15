@@ -38,9 +38,9 @@ name = "pypi"
 priority = "primary"{% if use_private_package_repository %}
 
 [[tool.poetry.source]]  # https://python-poetry.org/docs/repositories/#private-repository-example
-# Configura a private package: my_private_package = { version = ">=0.0.0", source="{{ gitlab_private_package_repository_name }}" }
-name = "{{ gitlab_private_package_repository_name }}"
-url = "{{ gitlab_private_package_repository_url }}"
+# Configura a private package: my_private_package = { version = ">=0.0.0", source="{{ private_package_repository_name }}" }
+name = "{{ private_package_repository_name }}"
+url = "{{ private_package_repository_url }}"
 priority = "explicit"{% endif %}
 
 [tool.coverage.report]  # https://coverage.readthedocs.io/en/latest/config.html#report
