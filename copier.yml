@@ -70,7 +70,7 @@ ci:
 repository_url:
     type: str
     help: What is the URL of this repository?
-    default: "{% if ci == 'github' %}https://github.com/<username>/<repo>/{% else %}https://gitlab.com/<username>/repo/{% endif %}"
+    default: "{% if ci == 'github' %}https://github.com/<username>/<repo>/{% else %}https://gitlab.com/<username>/<repo>/{% endif %}"
     validator: >-
         {% if ci == 'github' and not (repository_url | trim | regex_search('^https://github\\.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/$')) %}
         Invalid GitHub URL, example: https://github.com/lukin0110/poetry-copier-fastapi-demo/
