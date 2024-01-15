@@ -62,6 +62,7 @@ jobs:
           --data use_pydantic=yes \
           --data use_makefile=no \
           --data use_private_package_repository=no \
+          --data use_private_publish_repository=no \
           --data python_version="3.11.6" \
           --data package_slug="mcfly"
 
@@ -118,6 +119,7 @@ jobs:
           --data use_pydantic=yes \
           --data use_makefile=no \
           --data use_private_package_repository=no \
+          --data use_private_publish_repository=no \
           --data python_version="3.11.6" \
           --data package_slug="mcfly"
 
