@@ -99,12 +99,14 @@ private_package_repository_url:
     default: "{% if ci == 'gitlab' %}https://gitlab.com/api/v4/projects/<project_id>/packages/pypi/simple{% else %}https://<private-pypi-url>/simple{% endif %}"
     when: "{{ use_private_package_repository }}"
     validator: >-
-        {% if ci == 'gitlab' and not (private_package_repository_url | regex_search('https://gitlab.com/api/v4/projects/[0-9]+/packages/pypi/simple')) %}
-        Invalid GitLab URL for private package repository, example: https://gitlab.com/api/v4/projects/1234/packages/pypi/simple
-        {% elif not private_package_repository_url | regex_search('^https:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$') %}
-        Invalid URL for private package repository, example: https://private-pypi.org/simple
-        {% elif not private_package_repository_url %}
-        Private repository URL is required.
+        {% if use_private_package_repository %}
+            {% if ci == 'gitlab' and not (private_package_repository_url | regex_search('https://gitlab.com/api/v4/projects/[0-9]+/packages/pypi/simple')) %}
+            Invalid GitLab URL for private package repository, example: https://gitlab.com/api/v4/projects/1234/packages/pypi/simple
+            {% elif not private_package_repository_url | regex_search('^https:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$') %}
+            Invalid URL for private package repository, example: https://private-pypi.org/simple
+            {% elif not private_package_repository_url %}
+            Private repository URL is required.
+            {% endif %}
         {% endif %}
 
 # 1.2.2 Configure package publishing
@@ -120,12 +122,14 @@ private_publish_repository_url:
     default: "{% if ci == 'gitlab' %}https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi{% else %}https://<private-pypi-url>{% endif %}"
     when: "{{ use_private_publish_repository }}"
     validator: >-
-        {% if ci == 'gitlab' and not (private_publish_repository_url | regex_search('https://gitlab.com/api/v4/projects/.+/packages/pypi')) %}
-        Invalid GitLab URL to publish, example: https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi
-        {% elif not private_publish_repository_url | regex_search('^https:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$') %}
-        Invalid URL for private publish repository, example: https://private-pypi.org/simple
-        {% elif not private_publish_repository_url %}
-        Private publish repository URL is required.
+        {% if use_private_publish_repository %}
+            {% if ci == 'gitlab' and not (private_publish_repository_url | regex_search('https://gitlab.com/api/v4/projects/.+/packages/pypi')) %}
+            Invalid GitLab URL to publish, example: https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi
+            {% elif not private_publish_repository_url | regex_search('^https:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$') %}
+            Invalid URL for private publish repository, example: https://private-pypi.org/simple
+            {% elif not private_publish_repository_url %}
+            Private publish repository URL is required.
+            {% endif %}
         {% endif %}
 
 # 1.2.3 Setup GitHub CI/CD
