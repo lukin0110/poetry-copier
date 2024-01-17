@@ -1,10 +1,6 @@
 [![License: GNU Affero General Public License v3.0](https://img.shields.io/static/v1?label=license&message=GNU%20AFFERO&color=blue)](https://github.com/lukin0110/poetry-copier/blob/main/LICENSE) ![CI](https://github.com/lukin0110/poetry-copier/actions/workflows/test.yml/badge.svg?branch=main) [![GitHub Repo stars](https://img.shields.io/github/stars/lukin0110/poetry-copier)
 ](https://github.com/lukin0110/poetry-copier/stargazers)
 
-> [!IMPORTANT]
->
-> This is undergoing significant development and may change frequently. It's not considered stable yet.
-
 # Poetry Copier
 
 A [copier](https://copier.readthedocs.io/en/stable/) template for scaffolding Python packages and apps (FastAPI and Gradio) using [Poetry](https://python-poetry.org/) as package 
@@ -18,6 +14,8 @@ Check out the following demos for examples of scaffolded projects using this tem
 
 - FastAPI App with GitHub Actions: [poetry-copier-fastapi-demo](https://github.com/lukin0110/poetry-copier-fastapi-demo)
 - Python Package with GitHub Actions: [poetry-copier-package-demo](https://github.com/lukin0110/poetry-copier-package-demo)
+- FastAPI App with GitLab CI/CD: [poetry-copier-fastapi-demo-gitlab](https://gitlab.com/lukin0110/poetry-copier-fastapi-demo-gitlab)
+- Python Package GitLab CI/CD: [poetry-copier-package-demo-gitlab](https://gitlab.com/lukin0110/poetry-copier-package-demo-gitlab)
 
 ## 🎉 Features
 
@@ -37,12 +35,12 @@ Check out the following demos for examples of scaffolded projects using this tem
 
 1. Install the latest [copier](https://copier.readthedocs.io/en/stable/#installation) in your [Python environment](https://github.com/pyenv/pyenv) _(please use python>=3.8)_:
     ```bash
-    pip install "copier>=9.1.0"
+    pip install "copier>=9.1.1"
     ```
 2. Create a new repository and clone it locally.
 3. Run copier in your cloned directory:
     ```bash
-    copier copy --vcs-ref=HEAD git@github.com:lukin0110/poetry-copier.git .
+    copier copy --vcs-ref=v0.2.0 git@github.com:lukin0110/poetry-copier.git .
     ```
 
 ### Updating a project
