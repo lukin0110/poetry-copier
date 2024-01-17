@@ -6,7 +6,7 @@ authors = ["Maarten Huijsmans <maarten.huijsmans@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-copier = ">=9.1.0"
+copier = ">=9.1.1"
 pytest = ">=7.4.3"
 python = "^3.11"
 ruff = ">=0.1.8"
