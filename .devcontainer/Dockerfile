@@ -9,3 +9,6 @@ ENV VIRTUAL_ENV /opt/testing-env
 # Install python dependencies for testing.
 COPY testing/pyproject.toml . 
 RUN pip install poetry==1.7.1 && poetry install --no-root
+
+# Mark the workspace as safe for git
+RUN git config --system --add safe.directory '*'
