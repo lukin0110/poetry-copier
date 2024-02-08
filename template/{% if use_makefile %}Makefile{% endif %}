@@ -12,7 +12,7 @@ help:
 	@echo ""
 	@echo "Commands:"
 	@echo "  lint     Run linters"
-	@echo "  lint     Run safety"
+	@echo "  safety   Run safety"
 	@echo "  test     Run tests"
 	@echo "  lock     Update poetry lock file"
 	@echo "  shell    Open a shell in the dev container"
