@@ -75,10 +75,10 @@ repos:
         entry: poetry check
         language: system
         pass_filenames: false
-      - id: poetry-lock-check
-        name: poetry lock check
-        entry: poetry lock
-        args: [ --check ]
+      - id: poetry-check-lock
+        name: poetry check lock
+        entry: poetry check
+        args: [--lock]
         language: system
         pass_filenames: false
       - id: mypy

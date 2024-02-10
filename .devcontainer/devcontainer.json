@@ -9,6 +9,7 @@
         "vscode": {
             "extensions": [
                 "charliermarsh.ruff",
+                "github.copilot",
                 "github.vscode-github-actions",
                 "ms-python.python",
                 "tamasfe.even-better-toml",
