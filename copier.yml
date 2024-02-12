@@ -39,6 +39,7 @@ package_type:
     help: What package type do you want to create?
     choices:
         Python Package: package
+        Django App: django
         FastAPI App: fastapi
         Gradio App: gradio
         Streamlit App: streamlit
@@ -162,6 +163,12 @@ use_app:
     type: bool
     help: Do you want to use the app (y/N)?
     default: "{% if package_type != 'package' %}yes{% else %}no{% endif %}"
+    when: false
+
+use_django:
+    type: bool
+    help: Do you want to use Django (y/N)?
+    default: "{% if package_type == 'django' %}yes{% else %}no{% endif %}"
     when: false
 
 use_fastapi:

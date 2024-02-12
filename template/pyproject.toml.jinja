@@ -13,7 +13,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]  # https://python-poetry.org/docs/dependency-specification/
 python = ">={{ python_version }},<4.0"
-poethepoet = ">=0.24.4"{% if use_fastapi %}
+poethepoet = ">=0.24.4"{% if use_django %}
+Django = ">=5.0.2"
+gunicorn = ">=21.2.0"{% elif use_fastapi %}
 fastapi = { extras = ["all"], version = ">=0.109.0" }
 uvicorn = { extras = ["standard"], version = ">=0.26.0" }{% elif use_gradio %}
 gradio = ">=4.16.0"{% elif use_streamlit %}
@@ -21,14 +23,14 @@ streamlit = ">=1.31.0"{% endif %}{% if use_pydantic %}
 pydantic = ">=2.6.0"{% endif %}
 
 [tool.poetry.group.dev.dependencies]  # https://python-poetry.org/docs/master/managing-dependencies/
-coverage = { extras = ["toml"], version = ">=7.4.0" }
+coverage = { extras = ["toml"], version = ">=7.4.1" }
 ipython = ">=8.20.0"
 mypy = "1.8.0"
-pre-commit = ">=3.6.0"
-pytest = ">=7.4.4"
+pre-commit = ">=3.6.1"
+pytest = ">=8.0.0"
 pytest-clarity = ">=1.0.1"
 pytest-mock = ">=3.12.0"
-ruff = ">=0.2.0"
+ruff = ">=0.2.1"
 safety = ">=2.3.5,!=2.3.5"
 shellcheck-py = ">=0.9.0"
 typeguard = ">=4.1.5"
@@ -153,10 +155,25 @@ convention = "numpy"
 
     [[tool.poe.tasks.test.sequence]]
     cmd = "coverage xml"
-{% if use_fastapi %}
+{% if use_django %}
 
+    [tool.poe.tasks.serve]  # https://docs.gunicorn.org/en/stable/settings.html
+    help = "Serve Django App"
+    shell = """
+    if [ $dev ]
+    then {
+        django-admin \
+            runserver $host:$port \
+            --settings={{ package_slug }}.app
+    } else {
+        gunicorn \
+            --bind=$host:$port \
+            '{{ package_slug }}.app:application'
+    } fi
+    """
+{% elif use_fastapi %}
     [tool.poe.tasks.serve]  # https://www.uvicorn.org/settings/
-    help = "Serve a REST API in production"
+    help = "Serve FastAPI App"
     shell = """
     if [ $dev ]
     then {
