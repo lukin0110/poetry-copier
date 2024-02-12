@@ -1,4 +1,4 @@
-"""Test FastAPI app generation."""
+"""Test Django app generation."""
 
 import logging
 from pathlib import Path
@@ -18,7 +18,7 @@ def test_github_generation(answers: dict[str, str | bool], expected_paths: set[s
         "ci": "github",
         "repository_url": "https://github.com/lukin0110/mcfly/",
         "use_app": True,
-        "use_fastapi": True,
+        "use_django": True,
     }
     with TemporaryDirectory() as tmpdir:
         logger.info("GitHub package: %s", tmpdir)
@@ -33,8 +33,8 @@ def test_github_generation(answers: dict[str, str | bool], expected_paths: set[s
         assert_paths(tmpdir, expected)
         toml = assert_toml(Path(tmpdir) / "pyproject.toml")
         assert toml["tool"]["poe"]["tasks"]["serve"] == {
-            "help": "Serve FastAPI App",
-            "shell": "    if [ $dev ]\n    then {\n        uvicorn --host $host --port $port --use-colors --reload --factory mcfly.app:create_app\n    } else {\n        uvicorn --host $host --port $port --use-colors --proxy-headers --timeout-graceful-shutdown 10 --timeout-keep-alive 10 --factory mcfly.app:create_app\n    } fi\n    ",
+            "help": "Serve Django App",
+            "shell": "    if [ $dev ]\n    then {\n        django-admin runserver $host:$port --settings=mcfly.app\n    } else {\n        gunicorn --bind=$host:$port 'mcfly.app:application'\n    } fi\n    ",
             "args": [
                 {
                     "help": "Bind socket to this host (default: 0.0.0.0)",

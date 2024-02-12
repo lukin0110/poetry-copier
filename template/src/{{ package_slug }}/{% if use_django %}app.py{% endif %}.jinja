@@ -1,0 +1,25 @@
+"""{{ name }}."""
+
+import os
+
+from django.core.wsgi import get_wsgi_application
+from django.http import HttpRequest, HttpResponse
+from django.urls import re_path
+
+DEBUG = True
+SECRET_KEY = "1234"  # noqa: S105
+ROOT_URLCONF = __name__
+
+
+def home(request: HttpRequest) -> HttpResponse:
+    """Home view."""
+    return HttpResponse("Hello Django world")
+
+
+urlpatterns = [
+    re_path(r"^$", home, name="homepage"),
+]
+
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", __name__)
+application = get_wsgi_application()
