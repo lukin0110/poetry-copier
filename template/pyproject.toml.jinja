@@ -164,11 +164,11 @@ convention = "numpy"
     then {
         django-admin \
             runserver $host:$port \
-            --settings={{ package_slug }}.app
+            --settings={{ package_slug }}.settings
     } else {
         gunicorn \
             --bind=$host:$port \
-            '{{ package_slug }}.app:application'
+            '{{ package_slug }}.wsgi'
     } fi
     """
 {% elif use_fastapi %}
