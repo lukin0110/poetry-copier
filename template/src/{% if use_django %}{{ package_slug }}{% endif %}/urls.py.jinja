@@ -1,0 +1,9 @@
+"""URL configuration."""
+
+from django.urls import path
+
+from {{ package_slug }}.views import index
+
+urlpatterns = [
+    path("", index),
+]

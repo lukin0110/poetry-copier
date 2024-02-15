@@ -28,13 +28,16 @@ def test_github_generation(answers: dict[str, str | bool], expected_paths: set[s
             ".github/workflows/push_to_ghcr.yml",
             ".github/workflows/test.yml",
             ".github/dependabot.yml",
-            "src/mcfly/app.py",
+            "src/mcfly/settings.py",
+            "src/mcfly/urls.py",
+            "src/mcfly/views.py",
+            "src/mcfly/wsgi.py",
         }
         assert_paths(tmpdir, expected)
         toml = assert_toml(Path(tmpdir) / "pyproject.toml")
         assert toml["tool"]["poe"]["tasks"]["serve"] == {
             "help": "Serve Django App",
-            "shell": "    if [ $dev ]\n    then {\n        django-admin runserver $host:$port --settings=mcfly.app\n    } else {\n        gunicorn --bind=$host:$port 'mcfly.app:application'\n    } fi\n    ",
+            "shell": "    if [ $dev ]\n    then {\n        django-admin runserver $host:$port --settings=mcfly.settings\n    } else {\n        gunicorn --bind=$host:$port 'mcfly.wsgi'\n    } fi\n    ",
             "args": [
                 {
                     "help": "Bind socket to this host (default: 0.0.0.0)",
