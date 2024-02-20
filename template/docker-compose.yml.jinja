@@ -17,7 +17,7 @@ services:
     volumes:
       - .:/workspaces/{{ package_slug }}/
 {% if use_app %}
-  # Container definition for running the FastAPI app in production
+  # Container definition for running the production app image
   app:
     build:
       context: .
