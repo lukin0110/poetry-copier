@@ -12,6 +12,7 @@ services:
         - poetry-auth
     secrets:
       - poetry-auth{% endif %}
+    user: ${UID:-1000}
     stdin_open: true
     tty: true
     volumes:
