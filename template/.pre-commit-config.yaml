@@ -54,7 +54,7 @@ repos:
         files: "\\.rej$"
       - id: ruff-check
         name: ruff check
-        entry: poetry run ruff check
+        entry: poetry run ruff check --fix
         require_serial: true
         language: system
         types_or: [python, pyi]
