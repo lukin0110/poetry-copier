@@ -50,7 +50,7 @@ jobs:
 
       - name: Generate Python package
         run: |
-          pip install copier==9.1.0
+          pip install copier==9.2.0
           rm -Rf .git/
           copier copy . ./generated/ \
           --quiet \
@@ -107,7 +107,7 @@ jobs:
 
       - name: Generate FastAPI app
         run: |
-          pip install copier==9.1.0
+          pip install copier==9.2.0
           rm -Rf .git/
           copier copy . ./generated/ \
           --quiet \

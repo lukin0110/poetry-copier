@@ -6,11 +6,11 @@ authors = ["Maarten Huijsmans <maarten.huijsmans@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-copier = ">=9.1.1"
-pytest = ">=7.4.3"
+copier = ">=9.2.0"
+pytest = ">=8.1.1"
 python = "^3.11"
-ruff = ">=0.1.8"
-deepdiff = "^6.7.1"
+ruff = ">=0.4.1"
+deepdiff = "^7.0.1"
 pyyaml = "^6.0.1"
 
 [tool.ruff]  # https://github.com/charliermarsh/ruff
