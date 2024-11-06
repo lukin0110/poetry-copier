@@ -40,7 +40,7 @@ Check out the following demos for examples of scaffolded projects using this tem
 2. Create a new repository and clone it locally.
 3. Run copier in your cloned directory:
     ```bash
-    copier copy --vcs-ref=v0.3.1 git@github.com:lukin0110/poetry-copier.git .
+    copier copy --vcs-ref=v0.4.0 git@github.com:lukin0110/poetry-copier.git .
     ```
 
 ### Updating a project
