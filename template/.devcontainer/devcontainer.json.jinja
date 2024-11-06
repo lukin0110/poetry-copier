@@ -40,6 +40,7 @@
           100
         ],
         "editor.tabSize": 4,
+        "github.copilot.chat.edits.enabled": true,
         "files.autoSave": "onFocusChange",
         "[python]": {
           "editor.defaultFormatter": "charliermarsh.ruff"
@@ -48,12 +49,13 @@
           "editor.formatOnSave": false
         },
         "mypy-type-checker.importStrategy": "fromEnvironment",
+        "mypy-type-checker.preferDaemon": true,
         "python.defaultInterpreterPath": "/opt/{{ package_slug }}-env/bin/python",
         "python.terminal.activateEnvironment": false,
         "python.testing.pytestEnabled": true,
         "remote.containers.copyGitConfig": true,
         "ruff.importStrategy": "fromEnvironment",
-        "ruff.logLevel": "warn",
+        "ruff.logLevel": "warning",
         "terminal.integrated.defaultProfile.linux": "zsh",
         "terminal.integrated.profiles.linux": {
           "zsh": {

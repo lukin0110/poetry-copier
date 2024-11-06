@@ -143,13 +143,13 @@ private_publish_repository_url:
 python_version:
     type: str
     help: What Python version do you want to use?
-    default: "3.11.6"
+    default: "3.13.0"
     when: false
 
 poetry_version:
     type: str
     help: What Poetry version do you want to use?
-    default: "1.7.1"
+    default: "1.8.4"
     when: false
 
 # The validator of the `name` field ensures that the name only contains alphanumeric characters and single spaces.
