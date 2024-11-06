@@ -13,28 +13,28 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]  # https://python-poetry.org/docs/dependency-specification/
 python = ">={{ python_version }},<4.0"
-poethepoet = ">=0.24.4"{% if use_django %}
+poethepoet = ">=0.29.0"{% if use_django %}
 Django = ">=5.0.2"
-gunicorn = ">=21.2.0"{% elif use_fastapi %}
-fastapi = { extras = ["all"], version = ">=0.110.0" }
-uvicorn = { extras = ["standard"], version = ">=0.27.1" }
-uvloop = ">=0.19.0"{% elif use_gradio %}
+gunicorn = ">=23.0.0"{% elif use_fastapi %}
+fastapi = { extras = ["all"], version = ">=0.115.4" }
+uvicorn = { extras = ["standard"], version = ">=0.32.0" }
+uvloop = ">=0.21.0"{% elif use_gradio %}
 gradio = ">=4.19.1"{% elif use_streamlit %}
 streamlit = ">=1.31.1"{% endif %}{% if use_pydantic %}
-pydantic = ">=2.6.1"{% endif %}
+pydantic = ">=2.9.2"{% endif %}
 
 [tool.poetry.group.dev.dependencies]  # https://python-poetry.org/docs/master/managing-dependencies/
 coverage = { extras = ["toml"], version = ">=7.4.1" }
-ipython = ">=8.20.0"
-mypy = "1.9.0"
-pre-commit = ">=3.6.2"
-pytest = ">=8.1.1"
+ipython = ">=8.29.0"
+mypy = "1.13.0"
+pre-commit = ">=4.0.1"
+pytest = ">=8.3.3"
 pytest-clarity = ">=1.0.1"
-pytest-mock = ">=3.12.0"
-ruff = ">=0.3.3"
+pytest-mock = ">=3.14.0"
+ruff = ">=0.7.2"
 safety = ">=2.3.5,!=2.3.5"
-shellcheck-py = ">=0.9.0"
-typeguard = ">=4.1.5"
+shellcheck-py = ">=0.10.0"
+typeguard = ">=4.4.1"
 
 [[tool.poetry.source]]  # https://python-poetry.org/docs/repositories/
 name = "pypi"
@@ -92,17 +92,15 @@ log_file_level = "info"
 pythonpath = "src"
 
 [tool.ruff]  # https://github.com/charliermarsh/ruff
+fix = true
 line-length = 120
 src = ["src", "tests"]
-target-version = "py311"
+target-version = "py313"
 force-exclude = true  # https://docs.astral.sh/ruff/settings/#force-exclude
 preview = true  # https://docs.astral.sh/ruff/preview/
 
 [tool.ruff.lint]  # https://github.com/charliermarsh/ruff
-ignore-init-module-imports = true
-extend-safe-fixes = ["TID252"]  # https://docs.astral.sh/ruff/settings/#extend-safe-fixes
-fixable = ["ALL"]   # Allow fix for all enabled rules (when `--fix`) is provided.
-ignore = ["FBT001", "E501", "EM101", "EM102", "ISC001", "RET504", "S101", "TRY003", "TRY300", "W505"]
+ignore = ["D203", "D213", "E501", "EM101", "EM102", "FBT001", "ISC001", "RET504", "S101", "TRY003", "TRY300", "W505"]
 select = ["A", "ASYNC", "B", "BLE", "C4", "C90", "D", "DTZ", "E", "EM", "ERA", "F", "FBT", "FLY", "FURB", "G", "I", "ICN", "INP", "INT", "ISC", "LOG", "N", "NPY", "PERF", "PGH", "PIE", "PLC", "PLE", "PLR", "PLW", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "S", "SIM", "SLF", "SLOT", "T10", "T20", "TCH", "TID", "TRY", "UP", "W", "YTT"]
 unfixable = ["ERA001", "F401", "F841", "T201", "T203"]  # https://docs.astral.sh/ruff/settings/#unfixable
 

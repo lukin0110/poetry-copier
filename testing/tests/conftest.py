@@ -13,7 +13,7 @@ def answers() -> dict[str, str | bool]:
         "use_pydantic": True,
         "use_makefile": False,
         "use_private_package_repository": False,
-        "python_version": "3.11.6",
+        "python_version": "3.13.0",
         "package_slug": "mcfly",
         "use_app": False,
         "use_fastapi": False,

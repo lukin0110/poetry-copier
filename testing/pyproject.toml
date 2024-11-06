@@ -8,7 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 copier = ">=9.2.0"
 pytest = ">=8.1.1"
-python = "^3.11"
+python = "^3.12"
 ruff = ">=0.4.1"
 deepdiff = "^7.0.1"
 pyyaml = "^6.0.1"

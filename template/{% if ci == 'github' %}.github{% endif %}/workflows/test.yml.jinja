@@ -16,7 +16,7 @@ jobs:
     permissions: write-all
     strategy:
       matrix:
-        python-version: [ "3.11.6" ]
+        python-version: [ "3.13.0" ]
     name: Python {% raw %}${{ matrix.python-version }}{% endraw %}
     env:
       TAG: devcontainer-{% raw %}${{ matrix.python-version }}-${{ github.head_ref || github.ref_name }}{% endraw %}
