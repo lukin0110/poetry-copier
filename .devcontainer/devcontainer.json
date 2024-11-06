@@ -10,7 +10,8 @@
             "extensions": [
                 "charliermarsh.ruff",
                 "github.copilot",
-                "github.vscode-github-actions",
+                "GitHub.vscode-github-actions",
+                "GitHub.vscode-pull-request-github",
                 "ms-python.python",
                 "tamasfe.even-better-toml",
                 "visualstudioexptteam.vscodeintellicode"
@@ -18,8 +19,8 @@
             "settings": {
                 "dev.containers.copyGitConfig": true,
                 "editor.codeActionsOnSave": {
-                    "source.fixAll": true,
-                    "source.organizeImports": true
+                    "source.fixAll": "explicit",
+                    "source.organizeImports": "explicit"
                 },
                 "editor.formatOnSave": true,
                 "editor.rulers": [
@@ -33,7 +34,8 @@
                 "[toml]": {
                     "editor.formatOnSave": false
                 },
-                "python.defaultInterpreterPath": "/opt/testing-env/bin/python"
+                "python.defaultInterpreterPath": "/opt/testing-env/bin/python",
+                "workbench.editor.wrapTabs": true
             }
         }
     }

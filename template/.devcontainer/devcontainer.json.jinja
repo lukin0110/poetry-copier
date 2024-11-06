@@ -20,6 +20,8 @@
         "charliermarsh.ruff",
         "eamodio.gitlens",
         "github.copilot",
+        "GitHub.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
         "ms-azuretools.vscode-docker",
         "ms-python.mypy-type-checker",
         "ms-python.python",
@@ -31,9 +33,10 @@
         "coverage-gutters.coverageFileNames": [
           "reports/coverage.xml"
         ],
+        "dev.containers.copyGitConfig": true,
         "editor.codeActionsOnSave": {
-          "source.fixAll": true,
-          "source.organizeImports": true
+          "source.fixAll": "explicit",
+          "source.organizeImports": "explicit"
         },
         "editor.formatOnSave": true,
         "editor.rulers": [
@@ -53,7 +56,6 @@
         "python.defaultInterpreterPath": "/opt/{{ package_slug }}-env/bin/python",
         "python.terminal.activateEnvironment": false,
         "python.testing.pytestEnabled": true,
-        "remote.containers.copyGitConfig": true,
         "ruff.importStrategy": "fromEnvironment",
         "ruff.logLevel": "warning",
         "terminal.integrated.defaultProfile.linux": "zsh",
@@ -61,7 +63,8 @@
           "zsh": {
             "path": "/usr/bin/zsh"
           }
-        }
+        },
+        "workbench.editor.wrapTabs": true
       }
     }
   }
