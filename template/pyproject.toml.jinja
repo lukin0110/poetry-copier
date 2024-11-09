@@ -12,8 +12,8 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]  # https://python-poetry.org/docs/dependency-specification/
-python = ">={{ python_version }},<4.0"
-poethepoet = ">=0.29.0"{% if use_django %}
+python = ">={{ python_version }},<4.0"{% if use_app %}
+poethepoet = ">=0.29.0"{% endif %}{% if use_django %}
 Django = ">=5.0.2"
 gunicorn = ">=23.0.0"{% elif use_fastapi %}
 fastapi = { extras = ["all"], version = ">=0.115.4" }
@@ -26,7 +26,8 @@ pydantic = ">=2.9.2"{% endif %}
 [tool.poetry.group.dev.dependencies]  # https://python-poetry.org/docs/master/managing-dependencies/
 coverage = { extras = ["toml"], version = ">=7.4.1" }
 ipython = ">=8.29.0"
-mypy = "1.13.0"
+mypy = "1.13.0"{% if not use_app %}
+poethepoet = ">=0.29.0"{% endif %}
 pre-commit = ">=4.0.1"
 pytest = ">=8.3.3"
 pytest-clarity = ">=1.0.1"

@@ -3,24 +3,30 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Unit test / coverage reports
-htmlcov/
-.pytest_cache/
-reports/
-
-# Ruff
-.ruff_cache/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
 # Environments
 .env
 .venv/
 
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# macOS
+.DS_Store
+
 # mypy
 .mypy_cache/
 
+# Poetry
+.venv/
+dist/
 
 # PyCharm
 .idea/
+
+# Ruff
+.ruff_cache/
+
+# Unit test / coverage reports
+htmlcov/
+.pytest_cache/
+reports/
