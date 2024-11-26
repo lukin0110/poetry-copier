@@ -96,7 +96,7 @@ def assert_devcontainer(path: Path) -> None:
                                 "source.organizeImports": "explicit",
                             },
                             "editor.formatOnSave": True,
-                            "editor.rulers": [100],
+                            "editor.rulers": [120],
                             "editor.tabSize": 4,
                             "dev.containers.copyGitConfig": True,
                             "github.copilot.chat.edits.enabled": True,

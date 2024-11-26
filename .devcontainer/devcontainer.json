@@ -24,7 +24,7 @@
                 },
                 "editor.formatOnSave": true,
                 "editor.rulers": [
-                    100
+                    120
                 ],
                 "editor.tabSize": 4,
                 "files.autoSave": "onFocusChange",
