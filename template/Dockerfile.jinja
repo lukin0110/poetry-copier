@@ -2,16 +2,16 @@
 ARG PYTHON_VERSION={{ python_version }}
 FROM python:$PYTHON_VERSION-slim AS base
 
-LABEL org.opencontainers.image.description "{{ description }}"
+LABEL org.opencontainers.image.description="{{ description }}"
 
 # Configure Python to print tracebacks on crash [1], and to not buffer stdout and stderr [2].
 # [1] https://docs.python.org/3/using/cmdline.html#envvar-PYTHONFAULTHANDLER
 # [2] https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUNBUFFERED
-ENV PYTHONFAULTHANDLER 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONFAULTHANDLER=1
+ENV PYTHONUNBUFFERED=1
 
 # Install Poetry.
-ENV POETRY_VERSION {{ poetry_version }}
+ENV POETRY_VERSION={{ poetry_version }}
 RUN --mount=type=cache,target=/root/.cache/pip/ \
     pip install poetry==$POETRY_VERSION
 
@@ -25,8 +25,8 @@ RUN --mount=type=cache,target=/var/cache/apt/ \
 
 # Create and activate a virtual environment.
 RUN python -m venv /opt/{{ package_slug }}-env
-ENV PATH /opt/{{ package_slug }}-env/bin:$PATH
-ENV VIRTUAL_ENV /opt/{{ package_slug }}-env
+ENV PATH=/opt/{{ package_slug }}-env/bin:$PATH
+ENV VIRTUAL_ENV=/opt/{{ package_slug }}-env
 
 # Set the working directory.
 WORKDIR /workspaces/{{ package_slug }}/
@@ -92,9 +92,9 @@ CMD ["serve"]
 
 # Provide build information as environment variables.
 ARG BUILD_BRANCH
-ENV BUILD_BRANCH $BUILD_BRANCH
+ENV BUILD_BRANCH=$BUILD_BRANCH
 ARG BUILD_COMMIT
-ENV BUILD_COMMIT $BUILD_COMMIT
+ENV BUILD_COMMIT=$BUILD_COMMIT
 ARG BUILD_TIMESTAMP
-ENV BUILD_TIMESTAMP $BUILD_TIMESTAMP
+ENV BUILD_TIMESTAMP=$BUILD_TIMESTAMP
 {% endif %}
