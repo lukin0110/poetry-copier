@@ -19,9 +19,10 @@
       "extensions": [
         "charliermarsh.ruff",
         "eamodio.gitlens",
-        "github.copilot",
+        "github.copilot",{% if ci =='github' %}
         "GitHub.vscode-github-actions",
-        "GitHub.vscode-pull-request-github",
+        "GitHub.vscode-pull-request-github",{% elif ci == 'gitlab' %}
+        "GitLab.gitlab-workflow",{% endif %}
         "ms-azuretools.vscode-docker",
         "ms-python.mypy-type-checker",
         "ms-python.python",

@@ -25,6 +25,7 @@ def assert_paths(directory: str, paths: set[str]) -> None:
     ------
     AssertionError
         If any of the paths in the set are not found in the directory.
+
     """
     tree = set()
     for root, _, files in os.walk(directory):
@@ -57,8 +58,17 @@ def assert_yaml(path: Path) -> dict[str, Any]:
         raise AssertionError(f"Could not load: {path}") from e
 
 
-def assert_devcontainer(path: Path) -> None:
+def assert_devcontainer(path: Path, /, github: bool = False, gitlab: bool = False) -> None:
     """Check if the given path is a valid devcontainer definition."""
+    if github:
+        extensions = [
+            "GitHub.vscode-github-actions",
+            "GitHub.vscode-pull-request-github",
+        ]
+    elif gitlab:
+        extensions = ["GitLab.gitlab-workflow"]
+    else:
+        extensions = []
     try:
         with path.open("r") as fh:
             data = json.load(fh)
@@ -80,8 +90,7 @@ def assert_devcontainer(path: Path) -> None:
                             "charliermarsh.ruff",
                             "eamodio.gitlens",
                             "github.copilot",
-                            "GitHub.vscode-github-actions",
-                            "GitHub.vscode-pull-request-github",
+                            *extensions,
                             "ms-azuretools.vscode-docker",
                             "ms-python.mypy-type-checker",
                             "ms-python.python",
