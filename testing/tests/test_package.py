@@ -28,7 +28,7 @@ def test_github_generation(answers: dict[str, str | bool], expected_paths: set[s
             ".github/dependabot.yml",
         }
         assert_paths(tmpdir, expected)
-        assert_devcontainer(Path(tmpdir) / ".devcontainer/devcontainer.json")
+        assert_devcontainer(Path(tmpdir) / ".devcontainer/devcontainer.json", github=True)
         assert_toml(Path(tmpdir) / "pyproject.toml")
         assert_yaml(Path(tmpdir) / ".pre-commit-config.yaml")
         assert_yaml(Path(tmpdir) / "docker-compose.yml")
@@ -47,7 +47,7 @@ def test_gitlab_generation(answers: dict[str, str | bool], expected_paths: set[s
         copier.run_copy(str(_path.absolute()), tmpdir, data=answers_, cleanup_on_error=True)
         expected = expected_paths | {".gitlab-ci.yml"}
         assert_paths(tmpdir, expected)
-        assert_devcontainer(Path(tmpdir) / ".devcontainer/devcontainer.json")
+        assert_devcontainer(Path(tmpdir) / ".devcontainer/devcontainer.json", gitlab=True)
         assert_toml(Path(tmpdir) / "pyproject.toml")
         assert_yaml(Path(tmpdir) / ".pre-commit-config.yaml")
         assert_yaml(Path(tmpdir) / "docker-compose.yml")
