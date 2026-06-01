@@ -2,7 +2,7 @@
 
 ## `Permission denied (publickey)` in the DevContainer on macOS
 
-1. Add all private keys to the ssh-agent: `ssh-add -A`
+1. Add all private keys to the ssh-agent: `ssh-add -A` (on macos: `ssh-add --apple-use-keychain  --apple-load-keychain`)
 2. Reboot Docker Desktop
 3. Reopen VSCode
 
