@@ -9,12 +9,12 @@ dependencies = [
     {% if use_app %}"poethepoet (>=0.29.0)",{% endif %}{% if use_django %}
     "Django (>=6.0.3)",
     "gunicorn (>=23.0.0)",{% elif use_fastapi %}
-    "fastapi[all] (>=0.135.2)",
-    "uvicorn[standard] (>=0.42.0)",
+    "fastapi[all] (>=0.141.1)",
+    "uvicorn[standard] (>=0.52.4)",
     "uvloop (>=0.22.1)",{% elif use_gradio %}
     "gradio (>=6.10.0)",{% elif use_streamlit %}
     "streamlit (>=1.56.0)",{% endif %}{% if use_pydantic %}
-    "pydantic (>=2.12.5)",{% endif %}
+    "pydantic (>=2.13.4)",{% endif %}
 ]
 
 [project.urls]
@@ -29,13 +29,13 @@ build-backend = "uv_build"
 dev = [
     "coverage[toml] (>=7.13.4,<8.0.0)",
     "ipython (>=9.10.0)",
-    "ty (>=0.0.19)",{% if not use_app %}
+    "ty (>=0.0.74)",{% if not use_app %}
     "poethepoet (>=0.29.0)",{% endif %}
     "pre-commit (>=4.5.1)",
     "pytest (>=8.4.2)",
     "pytest-clarity (>=1.0.1)",
     "pytest-mock (>=3.15.1)",
-    "ruff (>=0.15.4)",
+    "ruff (>=0.16.4)",
     "safety (>=3.7.0,<4.0.0)",
     "typeguard (>=4.5.1)",
 ]
@@ -83,7 +83,7 @@ force-exclude = true  # https://docs.astral.sh/ruff/settings/#force-exclude
 preview = true  # https://docs.astral.sh/ruff/preview/
 
 [tool.ruff.lint]  # https://github.com/charliermarsh/ruff
-ignore = ["D10", "D203", "D213", "E501", "EM101", "EM102", "FBT001", "ISC001", "RET504", "S101", "TRY003", "TRY300", "W505"]
+ignore = ["D10", "D203", "D213", "E501", "EM101", "EM102", "FBT001", "ISC001", "RET504", "RUF201", "S101", "TRY003", "TRY300", "W505"]
 select = ["A", "ASYNC", "B", "BLE", "C4", "C90", "D", "DTZ", "E", "EM", "ERA", "F", "FBT", "FLY", "FURB", "G", "I", "ICN", "INP", "INT", "ISC", "LOG", "N", "NPY", "PERF", "PGH", "PIE", "PLC", "PLE", "PLR", "PLW", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "S", "SIM", "SLF", "SLOT", "T10", "T20", "TCH", "TID", "TRY", "UP", "W", "YTT"]
 unfixable = ["ERA001", "F401", "F841", "T201", "T203"]  # https://docs.astral.sh/ruff/settings/#unfixable
 
