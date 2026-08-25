@@ -30,7 +30,7 @@ status=$?
 
 if [ "$status" -ne 0 ]; then
     # Copier prints every generated path; keep the failure report, not the noise.
-    summary=$(printf '%s\n' "$output" | sed -n '/= \(FAILURES\|ERRORS\) =/,$p')
+    summary=$(printf '%s\n' "$output" | sed -nE '/= (FAILURES|ERRORS) =/,$p')
     [ -n "$summary" ] || summary=$(printf '%s\n' "$output" | tail -40)
     printf 'Template tests failed after editing %s\n\n%s\n' "${file#"$root"/}" "$summary" >&2
     exit 2
