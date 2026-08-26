@@ -8,6 +8,7 @@ services:
       target: dev
     stdin_open: true
     tty: true
+    # Load an optional .env file (the path/required syntax needs Docker Compose v2.24+)
     env_file:
       - path: .env
         required: false
@@ -20,6 +21,7 @@ services:
       context: .
       target: app
     tty: true
+    # Load an optional .env file (the path/required syntax needs Docker Compose v2.24+)
     env_file:
       - path: .env
         required: false
