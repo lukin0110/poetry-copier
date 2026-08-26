@@ -26,7 +26,7 @@ jobs:
       - name: Install Uv
         working-directory: testing
         run: |
-          pip install uv==0.10.6
+          pip install uv==0.12.6
           uv sync
 
       - name: Run Python Tests
