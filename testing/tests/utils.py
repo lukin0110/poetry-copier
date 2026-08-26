@@ -84,7 +84,6 @@ def assert_devcontainer(path: Path, /, *, github: bool = False, gitlab: bool = F
                 "workspaceFolder": "/workspaces/mcfly/",
                 "remoteUser": "root",
                 "overrideCommand": True,
-                "initializeCommand": "touch ${localWorkspaceFolder}/.env",
                 "mounts": [
                     "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock,consistency=consistent",
                     "type=volume,source=claude-code-config,target=/root/.claude,consistency=cached",
