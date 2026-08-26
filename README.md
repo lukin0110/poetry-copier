@@ -19,7 +19,7 @@ Check out the following demos for examples of scaffolded projects using this tem
 
 - 🐳 Reproducible [Docker](https://www.docker.com/) based development environments with [Docker Compose](https://docs.docker.com/compose/) and [Development Containers](https://containers.dev/)
 - 🤝 Integrated support for [VSCode](https://code.visualstudio.com/) with [VSCode Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) and [GitHub Codespaces](https://github.com/features/codespaces)
-- 🐍 Scaffold a Python package or a [FastAPI](https://fastapi.tiangolo.com/) app with [Pydantic V2](https://docs.pydantic.dev/2.5/), [Django](https://www.djangoproject.com/) app, [Streamlit](https://streamlit.io/) app or [Gradio](https://www.gradio.app/) app to demo Machine Learning models
+- 🐍 Scaffold a Python package or a [FastAPI](https://fastapi.tiangolo.com/) app with [Pydantic V2](https://docs.pydantic.dev/2.5/), [Streamlit](https://streamlit.io/) app or [Gradio](https://www.gradio.app/) app to demo Machine Learning models
 - 📦 Dependency management with [uv](https://docs.astral.sh/uv/)
 - 🏃 Task running with [Poe the Poet](https://poethepoet.natn.io/index.html)
 - ✍️ Code formatting with [Ruff](https://docs.astral.sh/ruff/)

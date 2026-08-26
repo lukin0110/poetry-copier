@@ -6,9 +6,7 @@ authors = []
 readme = "README.md"
 requires-python = ">={{ python_version }},<4.0"
 dependencies = [
-    {% if use_app %}"poethepoet (>=0.29.0)",{% endif %}{% if use_django %}
-    "Django (>=6.0.3)",
-    "gunicorn (>=23.0.0)",{% elif use_fastapi %}
+    {% if use_app %}"poethepoet (>=0.29.0)",{% endif %}{% if use_fastapi %}
     "fastapi[all] (>=0.141.1)",
     "uvicorn[standard] (>=0.52.4)",
     "uvloop (>=0.22.1)",{% elif use_gradio %}
@@ -139,23 +137,7 @@ convention = "numpy"
 
     [[tool.poe.tasks.test.sequence]]
     cmd = "coverage xml"
-{% if use_django %}
-
-    [tool.poe.tasks.serve]  # https://docs.gunicorn.org/en/stable/settings.html
-    help = "Serve Django App"
-    shell = """
-    if [ $dev ]
-    then {
-        django-admin \
-            runserver $host:$port \
-            --settings={{ package_slug }}.settings
-    } else {
-        gunicorn \
-            --bind=$host:$port \
-            '{{ package_slug }}.wsgi'
-    } fi
-    """
-{% elif use_fastapi %}
+{% if use_fastapi %}
     [tool.poe.tasks.serve]  # https://www.uvicorn.org/settings/
     help = "Serve FastAPI App"
     shell = """
