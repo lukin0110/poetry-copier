@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "Bash"
+      "Bash(uv:*)",
+      "Bash(uvx:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(.claude/hooks/scaffold-check.sh:*)"
     ]
   },
   "hooks": {

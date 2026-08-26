@@ -17,6 +17,12 @@ if [ "$file" = "ERR" ]; then
     exit 0
 fi
 
+# Tolerate payloads that report paths relative to the project root.
+case "$file" in
+    ""|/*) ;;
+    *) file="$root/$file" ;;
+esac
+
 # Only template sources and the copier questions change what gets generated.
 case "$file" in
     "$root"/template/*|"$root"/copier.yml) ;;

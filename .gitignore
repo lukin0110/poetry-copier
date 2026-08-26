@@ -1,3 +1,6 @@
+# Claude Code personal settings
+.claude/settings.local.json
+
 # PyCharm
 .idea/
 
