@@ -8,6 +8,9 @@ services:
       target: dev
     stdin_open: true
     tty: true
+    env_file:
+      - path: .env
+        required: false
     volumes:
       - .:/workspaces/{{ package_slug }}/
 {% if use_app %}
@@ -17,6 +20,9 @@ services:
       context: .
       target: app
     tty: true
+    env_file:
+      - path: .env
+        required: false
     ports:
       - "8001:8000"
     volumes:
