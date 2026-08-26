@@ -24,8 +24,17 @@ variants=("$@")
 hook_mode=0
 
 # Fingerprint before generating: edits landing mid-run leave a stale recorded hash, which
-# re-arms the check on the next stop instead of losing them.
+# re-arms the check on the next stop instead of losing them. Fail closed on a broken
+# fingerprint — comparing or recording garbage would silently disable the gate.
 current_hash=$(generation_hash "$root")
+case "$current_hash" in
+    *[!0-9a-f]*|"") bad_hash=1 ;;
+    *) [ "${#current_hash}" -eq 64 ] || bad_hash=1 ;;
+esac
+if [ "${bad_hash:-0}" = 1 ]; then
+    printf 'Scaffold check: could not fingerprint template/ + copier.yml (got "%s").\n' "$current_hash" >&2
+    exit 2
+fi
 
 if [ ${#variants[@]} -eq 0 ]; then
     hook_mode=1
@@ -40,9 +49,10 @@ if [ ${#variants[@]} -eq 0 ]; then
             rm -f "$marker"
             exit 0
         fi
-    elif [ ! -f "$marker" ]; then
-        # First stop in this checkout with nothing flagged: adopt the current content as the
-        # baseline (it is what HEAD's own CI validated) rather than paying a cold check now.
+    elif [ ! -f "$marker" ] && [ -z "$(git -C "$root" status --porcelain -- template copier.yml)" ]; then
+        # First stop in this checkout with nothing flagged and the generation sources clean
+        # against HEAD (whose content CI validated): adopt the current content as the baseline
+        # rather than paying a cold check now. A dirty tree falls through and gets checked.
         mkdir -p "$cache_root" && printf '%s\n' "$current_hash" > "$state"
         exit 0
     fi
