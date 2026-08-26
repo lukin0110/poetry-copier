@@ -93,7 +93,7 @@ python_version:
 uv_version:
     type: str
     help: What uv version do you want to use?
-    default: "0.10.7"
+    default: "0.12.6"
     when: false
 
 # The validator of the `name` field ensures that the name only contains alphanumeric characters and single spaces.
