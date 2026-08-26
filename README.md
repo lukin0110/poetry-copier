@@ -38,7 +38,7 @@ Check out the following demos for examples of scaffolded projects using this tem
 2. Create a new repository and clone it locally.
 3. Run copier in your cloned directory:
     ```bash
-    copier copy --vcs-ref=v1.1.0 git@github.com:lukin0110/uv-copier.git .
+    copier copy --vcs-ref=v1.2.0 git@github.com:lukin0110/uv-copier.git .
     ```
 
 ### Updating a project
