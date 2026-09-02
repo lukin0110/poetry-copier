@@ -63,7 +63,7 @@ The use of [Docker](https://www.docker.com/) in conjunction with [Development Co
 
 - Reduce project setup
 - Provide [dev/prod parity](https://12factor.net/dev-prod-parity)
-- [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) idependent. However, with a strong focus on [VSCode](https://code.visualstudio.com/) since it integrates nicely with *GitHub*, *Development Containers* and *GitHub Copilot*
+- [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) independent. However, with a strong focus on [VSCode](https://code.visualstudio.com/) since it integrates nicely with *GitHub*, *Development Containers* and *GitHub Copilot*
 - Provide a minimal workable setup
 - Don't enforce application or package architecture
 - Include the *usual suspects* of every project: CI/CD, linting, testing, package manager, development container, etc
